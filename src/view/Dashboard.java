@@ -329,9 +329,9 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
         tnamaMenu.setText("Pesanan");
         
-        mPesanan mPsn = new mPesanan(jDesktopPane1);
-        jDesktopPane1.add(mPsn);
-        mPsn.setVisible(true);
+        mDetailPesanan mDPsn = new mDetailPesanan(jDesktopPane1);
+        jDesktopPane1.add(mDPsn);
+        mDPsn.setVisible(true);
     }//GEN-LAST:event_mPesananMouseClicked
 
     private void mStokBahanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mStokBahanMouseClicked

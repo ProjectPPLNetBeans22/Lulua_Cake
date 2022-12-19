@@ -91,8 +91,17 @@ public class mUbahStatus extends javax.swing.JInternalFrame {
     }
     
     public void dataTabel() {
-        DefaultTableModel tbl = new DefaultTableModel();
-        tbl.addColumn("ID Order");
+        DefaultTableModel tbl = new DefaultTableModel() {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        };
+                
+        tbl.addColumn("ID Orders");
         tbl.addColumn("Nama Pemesan");
         tbl.addColumn("Jenis Kue");
         tbl.addColumn("Detail Kue");
@@ -104,18 +113,19 @@ public class mUbahStatus extends javax.swing.JInternalFrame {
         tabel.getColumnModel().getColumn(3).setMinWidth(100);
 
         try {
-            String sql = "SELECT transaksi.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
-                        + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
-                        + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
-                        + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
-                        + "OR detail_produk.kode_produk = detail_transaksi.kode_sub_produk "
-                        + "OR orders.ID_orders = transaksi.ID_orders OR produk.kode_produk = detail_transaksi.kode_produk "
-                        + "GROUP BY transaksi.ID_orders";
+            String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+                       + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
+                       + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
+                       + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
+                       + "AND orders.ID_orders = transaksi.ID_orders "
+                       + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
+                       + "AND produk.kode_produk = detail_transaksi.kode_produk "
+                       + "GROUP BY orders.ID_orders";
             Statement stat = Koneksi.GetConnection().createStatement();
             ResultSet res = stat.executeQuery(sql);
             while(res.next()) {
                 tbl.addRow(new Object[]{
-                    res.getString("transaksi.ID_orders"),
+                    res.getString("orders.ID_orders"),
                     res.getString("orders.nama_pemesan"),
                     res.getString("produk.nama_produk"),
                     res.getString("detailKue"),
@@ -350,16 +360,25 @@ public class mUbahStatus extends javax.swing.JInternalFrame {
 
     private void btnKembaliMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnKembaliMouseClicked
         // TODO add your handling code here:
-        mPesanan mPsn = new mPesanan(desktop);
-        desktop.add(mPsn);
-        mPsn.setVisible(true);
+        mDetailPesanan mDPsn = new mDetailPesanan(desktop);
+        desktop.add(mDPsn);
+        mDPsn.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnKembaliMouseClicked
 
     private void tCariKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tCariKeyReleased
         // TODO add your handling code here:
-        DefaultTableModel tbl = new DefaultTableModel();
-        tbl.addColumn("ID Order");
+        DefaultTableModel tbl = new DefaultTableModel() {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        };
+                
+        tbl.addColumn("ID Orders");
         tbl.addColumn("Nama Pemesan");
         tbl.addColumn("Jenis Kue");
         tbl.addColumn("Detail Kue");
@@ -371,18 +390,19 @@ public class mUbahStatus extends javax.swing.JInternalFrame {
         tabel.getColumnModel().getColumn(3).setMinWidth(100);
 
         try {
-            String sql = "SELECT transaksi.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
-                        + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
-                        + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
-                        + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
-                        + "OR detail_produk.kode_produk = detail_transaksi.kode_sub_produk "
-                        + "OR orders.ID_orders = transaksi.ID_orders OR produk.kode_produk = detail_transaksi.kode_produk "
-                        + "GROUP BY transaksi.ID_orders HAVING transaksi.ID_orders LIKE '%"+ tCari.getText() +"%' OR orders.nama_pemesan LIKE '%"+ tCari.getText() +"%'";
+            String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+                       + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
+                       + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
+                       + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
+                       + "AND orders.ID_orders = transaksi.ID_orders "
+                       + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
+                       + "AND produk.kode_produk = detail_transaksi.kode_produk "
+                       + "GROUP BY orders.ID_orders HAVING orders.ID_orders LIKE '%"+ tCari.getText() +"%' OR orders.nama_pemesan LIKE '%"+ tCari.getText() +"%'";
             Statement stat = Koneksi.GetConnection().createStatement();
             ResultSet res = stat.executeQuery(sql);
             while(res.next()) {
                 tbl.addRow(new Object[]{
-                    res.getString("transaksi.ID_orders"),
+                    res.getString("orders.ID_orders"),
                     res.getString("orders.nama_pemesan"),
                     res.getString("produk.nama_produk"),
                     res.getString("detailKue"),
@@ -401,8 +421,17 @@ public class mUbahStatus extends javax.swing.JInternalFrame {
     private void tSortByActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tSortByActionPerformed
         // TODO add your handling code here:
         if (tSortBy.getSelectedItem() == "Dipesan") {
-            DefaultTableModel tbl = new DefaultTableModel();
-            tbl.addColumn("ID Order");
+            DefaultTableModel tbl = new DefaultTableModel() {
+                boolean[] canEdit = new boolean [] {
+                    false, false, false, false, false
+                };
+
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit [columnIndex];
+                }
+            };
+                    
+            tbl.addColumn("ID Orders");
             tbl.addColumn("Nama Pemesan");
             tbl.addColumn("Jenis Kue");
             tbl.addColumn("Detail Kue");
@@ -414,18 +443,19 @@ public class mUbahStatus extends javax.swing.JInternalFrame {
             tabel.getColumnModel().getColumn(3).setMinWidth(100);
 
             try {
-                String sql = "SELECT transaksi.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+                String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
                             + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
                             + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                             + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
-                            + "OR detail_produk.kode_produk = detail_transaksi.kode_sub_produk "
-                            + "OR orders.ID_orders = transaksi.ID_orders OR produk.kode_produk = detail_transaksi.kode_produk "
-                            + "GROUP BY transaksi.ID_orders HAVING transaksi.status_pesanan = 'Dipesan'";
+                            + "AND orders.ID_orders = transaksi.ID_orders "
+                            + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
+                            + "AND produk.kode_produk = detail_transaksi.kode_produk "
+                            + "GROUP BY orders.ID_orders HAVING transaksi.status_pesanan = 'Dipesan'";
                 Statement stat = Koneksi.GetConnection().createStatement();
                 ResultSet res = stat.executeQuery(sql);
                 while(res.next()) {
                     tbl.addRow(new Object[]{
-                        res.getString("transaksi.ID_orders"),
+                        res.getString("orders.ID_orders"),
                         res.getString("orders.nama_pemesan"),
                         res.getString("produk.nama_produk"),
                         res.getString("detailKue"),
@@ -440,8 +470,17 @@ public class mUbahStatus extends javax.swing.JInternalFrame {
                 System.out.println(ex);
             }
         } else if (tSortBy.getSelectedItem() == "Dikerjakan") {
-            DefaultTableModel tbl = new DefaultTableModel();
-            tbl.addColumn("ID Order");
+            DefaultTableModel tbl = new DefaultTableModel() {
+                boolean[] canEdit = new boolean [] {
+                    false, false, false, false, false
+                };
+
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit [columnIndex];
+                }
+            };
+            
+            tbl.addColumn("ID Orders");
             tbl.addColumn("Nama Pemesan");
             tbl.addColumn("Jenis Kue");
             tbl.addColumn("Detail Kue");
@@ -453,18 +492,19 @@ public class mUbahStatus extends javax.swing.JInternalFrame {
             tabel.getColumnModel().getColumn(3).setMinWidth(100);
 
             try {
-                String sql = "SELECT transaksi.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+                  String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
                             + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
                             + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                             + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
-                            + "OR detail_produk.kode_produk = detail_transaksi.kode_sub_produk "
-                            + "OR orders.ID_orders = transaksi.ID_orders OR produk.kode_produk = detail_transaksi.kode_produk "
-                            + "GROUP BY transaksi.ID_orders HAVING transaksi.status_pesanan = 'Dikerjakan'";
+                            + "AND orders.ID_orders = transaksi.ID_orders "
+                            + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
+                            + "AND produk.kode_produk = detail_transaksi.kode_produk "
+                            + "GROUP BY orders.ID_orders HAVING transaksi.status_pesanan = 'Dikerjakan'";
                 Statement stat = Koneksi.GetConnection().createStatement();
                 ResultSet res = stat.executeQuery(sql);
                 while(res.next()) {
                     tbl.addRow(new Object[]{
-                        res.getString("transaksi.ID_orders"),
+                        res.getString("orders.ID_orders"),
                         res.getString("orders.nama_pemesan"),
                         res.getString("produk.nama_produk"),
                         res.getString("detailKue"),
@@ -479,8 +519,17 @@ public class mUbahStatus extends javax.swing.JInternalFrame {
                 System.out.println(ex);
             }
         } else if (tSortBy.getSelectedItem() == "Belum Di Ambil") {
-            DefaultTableModel tbl = new DefaultTableModel();
-            tbl.addColumn("ID Order");
+            DefaultTableModel tbl = new DefaultTableModel() {
+                boolean[] canEdit = new boolean [] {
+                    false, false, false, false, false
+                };
+
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit [columnIndex];
+                }
+            };
+                    
+            tbl.addColumn("ID Orders");
             tbl.addColumn("Nama Pemesan");
             tbl.addColumn("Jenis Kue");
             tbl.addColumn("Detail Kue");
@@ -492,18 +541,19 @@ public class mUbahStatus extends javax.swing.JInternalFrame {
             tabel.getColumnModel().getColumn(3).setMinWidth(100);
 
             try {
-                String sql = "SELECT transaksi.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+                  String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
                             + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
                             + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                             + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
-                            + "OR detail_produk.kode_produk = detail_transaksi.kode_sub_produk "
-                            + "OR orders.ID_orders = transaksi.ID_orders OR produk.kode_produk = detail_transaksi.kode_produk "
-                            + "GROUP BY transaksi.ID_orders HAVING transaksi.status_pesanan = 'Belum Di Ambil'";
+                            + "AND orders.ID_orders = transaksi.ID_orders "
+                            + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
+                            + "AND produk.kode_produk = detail_transaksi.kode_produk "
+                            + "GROUP BY orders.ID_orders HAVING transaksi.status_pesanan = 'Belum Di Ambil'";
                 Statement stat = Koneksi.GetConnection().createStatement();
                 ResultSet res = stat.executeQuery(sql);
                 while(res.next()) {
                     tbl.addRow(new Object[]{
-                        res.getString("transaksi.ID_orders"),
+                        res.getString("orders.ID_orders"),
                         res.getString("orders.nama_pemesan"),
                         res.getString("produk.nama_produk"),
                         res.getString("detailKue"),
@@ -518,8 +568,17 @@ public class mUbahStatus extends javax.swing.JInternalFrame {
                 System.out.println(ex);
             }
         } else if (tSortBy.getSelectedItem() == "Selesai") {
-            DefaultTableModel tbl = new DefaultTableModel();
-            tbl.addColumn("ID Order");
+            DefaultTableModel tbl = new DefaultTableModel() {
+                boolean[] canEdit = new boolean [] {
+                    false, false, false, false, false
+                };
+
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit [columnIndex];
+                }
+            };
+            
+            tbl.addColumn("ID Orders");
             tbl.addColumn("Nama Pemesan");
             tbl.addColumn("Jenis Kue");
             tbl.addColumn("Detail Kue");
@@ -531,18 +590,19 @@ public class mUbahStatus extends javax.swing.JInternalFrame {
             tabel.getColumnModel().getColumn(3).setMinWidth(100);
 
             try {
-                String sql = "SELECT transaksi.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+                  String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
                             + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
                             + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                             + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
-                            + "OR detail_produk.kode_produk = detail_transaksi.kode_sub_produk "
-                            + "OR orders.ID_orders = transaksi.ID_orders OR produk.kode_produk = detail_transaksi.kode_produk "
-                            + "GROUP BY transaksi.ID_orders HAVING transaksi.status_pesanan = 'Selesai'";
+                            + "AND orders.ID_orders = transaksi.ID_orders "
+                            + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
+                            + "AND produk.kode_produk = detail_transaksi.kode_produk "
+                            + "GROUP BY orders.ID_orders HAVING transaksi.status_pesanan = 'Selesai'";
                 Statement stat = Koneksi.GetConnection().createStatement();
                 ResultSet res = stat.executeQuery(sql);
                 while(res.next()) {
                     tbl.addRow(new Object[]{
-                        res.getString("transaksi.ID_orders"),
+                        res.getString("orders.ID_orders"),
                         res.getString("orders.nama_pemesan"),
                         res.getString("produk.nama_produk"),
                         res.getString("detailKue"),
@@ -557,8 +617,17 @@ public class mUbahStatus extends javax.swing.JInternalFrame {
                 System.out.println(ex);
             }
         } else if (tSortBy.getSelectedIndex() == 0) {
-            DefaultTableModel tbl = new DefaultTableModel();
-            tbl.addColumn("ID Order");
+            DefaultTableModel tbl = new DefaultTableModel() {
+                boolean[] canEdit = new boolean [] {
+                    false, false, false, false, false
+                };
+
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit [columnIndex];
+                }
+            };
+            
+            tbl.addColumn("ID Orders");
             tbl.addColumn("Nama Pemesan");
             tbl.addColumn("Jenis Kue");
             tbl.addColumn("Detail Kue");
@@ -570,18 +639,19 @@ public class mUbahStatus extends javax.swing.JInternalFrame {
             tabel.getColumnModel().getColumn(3).setMinWidth(100);
 
             try {
-                String sql = "SELECT transaksi.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+                 String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
                             + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
                             + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                             + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
-                            + "OR detail_produk.kode_produk = detail_transaksi.kode_sub_produk "
-                            + "OR orders.ID_orders = transaksi.ID_orders OR produk.kode_produk = detail_transaksi.kode_produk "
-                            + "GROUP BY transaksi.ID_orders";
+                            + "AND orders.ID_orders = transaksi.ID_orders "
+                            + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
+                            + "AND produk.kode_produk = detail_transaksi.kode_produk "
+                            + "GROUP BY orders.ID_orders";
                 Statement stat = Koneksi.GetConnection().createStatement();
                 ResultSet res = stat.executeQuery(sql);
                 while(res.next()) {
                     tbl.addRow(new Object[]{
-                        res.getString("transaksi.ID_orders"),
+                        res.getString("orders.ID_orders"),
                         res.getString("orders.nama_pemesan"),
                         res.getString("produk.nama_produk"),
                         res.getString("detailKue"),
@@ -604,8 +674,17 @@ public class mUbahStatus extends javax.swing.JInternalFrame {
             tStatusPesanan.setText("");
             tComboStatus.setSelectedIndex(0);
         } else {
-            DefaultTableModel tbl = new DefaultTableModel();
-            tbl.addColumn("ID Order");
+            DefaultTableModel tbl = new DefaultTableModel() {
+                boolean[] canEdit = new boolean [] {
+                    false, false, false, false, false
+                };
+
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit [columnIndex];
+                }
+            };
+            
+            tbl.addColumn("ID Orders");
             tbl.addColumn("Nama Pemesan");
             tbl.addColumn("Jenis Kue");
             tbl.addColumn("Detail Kue");
@@ -617,18 +696,19 @@ public class mUbahStatus extends javax.swing.JInternalFrame {
             tabel.getColumnModel().getColumn(3).setMinWidth(100);
 
             try {
-                String sql = "SELECT transaksi.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
-                           + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
-                           + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
-                           + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
-                           + "OR detail_produk.kode_produk = detail_transaksi.kode_sub_produk "
-                           + "OR orders.ID_orders = transaksi.ID_orders OR produk.kode_produk = detail_transaksi.kode_produk "
-                           + "GROUP BY transaksi.ID_orders HAVING transaksi.ID_orders = '"+ tNoOrder.getText() +"'";
+                String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+                            + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
+                            + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
+                            + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
+                            + "AND orders.ID_orders = transaksi.ID_orders "
+                            + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
+                            + "AND produk.kode_produk = detail_transaksi.kode_produk "
+                            + "GROUP BY orders.ID_orders HAVING orders.ID_orders = '"+ tNoOrder.getText() +"'";
                 Statement stat = Koneksi.GetConnection().createStatement();
                 ResultSet res = stat.executeQuery(sql);
                 while(res.next()) {
                     tbl.addRow(new Object[]{
-                        res.getString("transaksi.ID_orders"),
+                        res.getString("orders.ID_orders"),
                         res.getString("orders.nama_pemesan"),
                         res.getString("produk.nama_produk"),
                         res.getString("detailKue"),

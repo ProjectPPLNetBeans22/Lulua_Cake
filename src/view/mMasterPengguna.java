@@ -46,6 +46,9 @@ public class mMasterPengguna extends javax.swing.JInternalFrame {
         
         dataCombo();
         dataTable();
+        
+        btnEdit.setEnabled(false);
+        btnHapus.setEnabled(false);
     }
     
     public void dataCombo() {
@@ -143,6 +146,7 @@ public class mMasterPengguna extends javax.swing.JInternalFrame {
         jPanel2.setLayout(null);
 
         btnHapus.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnHapus.setEnabled(false);
         btnHapus.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnHapusMouseClicked(evt);
@@ -185,6 +189,7 @@ public class mMasterPengguna extends javax.swing.JInternalFrame {
         btnSimpan.setBounds(188, 331, 100, 31);
 
         btnEdit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEdit.setEnabled(false);
         btnEdit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnEditMouseClicked(evt);
