@@ -345,23 +345,49 @@ public class mMasterPengguna extends javax.swing.JInternalFrame {
 
     private void btnEditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseClicked
         // TODO add your handling code here:
-        if (tNama.getText().isEmpty() || tEmail.getText().isEmpty() || tPassword.getText().isEmpty() ||
-            combo.getSelectedIndex() == 0 || tHobi.getText().isEmpty()) {
+        if (tNama.getText().isEmpty() || tEmail.getText().isEmpty() || combo.getSelectedIndex() == 0 || tHobi.getText().isEmpty()) {
             JOptionPane.showMessageDialog(rootPane, "Mohon Isi Seluruh Form Data Pegawai!");
         } else {
-            try {
-                String sql = "UPDATE pegawai SET nama_pegawai = '"+ tNama.getText() +"', "
-                             + "email_pegawai = '"+ tEmail.getText() +"', password_pegawai = '"+ tPassword.getText() +"',"
-                             + "jabatan = '"+ tIdJabatan.getText() +"', hobi = '"+ tHobi.getText() +"' WHERE ID_pegawai = '"+ tIdPegawai.getText() +"'";
-                Statement stat = Koneksi.GetConnection().createStatement();
-                stat.execute(sql);
-                JOptionPane.showMessageDialog(rootPane, "Data Pegawai Berhasil Di Ubah!");
-                bersih();
-                dataTable();
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(rootPane, "Data Pegawai Gagal Di Ubah!");
-                System.out.println(ex);
-            }    
+            if (tPassword.getText().isEmpty()) {
+                try {
+                    String sqll = "SELECT * FROM pegawai WHERE ID_pegawai = '"+ tIdPegawai.getText() +"'";
+                    Statement stat = Koneksi.GetConnection().createStatement();
+                    ResultSet res = stat.executeQuery(sqll);
+                        if (res.next()) {
+                            try {
+                                String sql = "UPDATE pegawai SET nama_pegawai = '"+ tNama.getText() +"', "
+                                             + "email_pegawai = '"+ tEmail.getText() +"', password_pegawai = '"+ res.getString("password_pegawai") +"',"
+                                             + "jabatan = '"+ tIdJabatan.getText() +"', hobi = '"+ tHobi.getText() +"' WHERE ID_pegawai = '"+ tIdPegawai.getText() +"'";
+                                stat.execute(sql);
+                                JOptionPane.showMessageDialog(rootPane, "Data Pegawai Berhasil Di Ubah!");
+                                bersih();
+                                dataTable();
+                            } catch (Exception ex) {
+                                JOptionPane.showMessageDialog(rootPane, "Data Pegawai Gagal Di Ubah!");
+                                System.out.println(ex);
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(rootPane, "Password Pegawai Tidak Di Temukan");
+                        }
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(rootPane, "Data Gagal Diambil");
+                    System.out.println(ex);
+                }
+            } else {
+                try {
+                    String sql = "UPDATE pegawai SET nama_pegawai = '"+ tNama.getText() +"', "
+                                 + "email_pegawai = '"+ tEmail.getText() +"', password_pegawai = '"+ tPassword.getText() +"',"
+                                 + "jabatan = '"+ tIdJabatan.getText() +"', hobi = '"+ tHobi.getText() +"' WHERE ID_pegawai = '"+ tIdPegawai.getText() +"'";
+                    Statement stat = Koneksi.GetConnection().createStatement();
+                    stat.execute(sql);
+                    JOptionPane.showMessageDialog(rootPane, "Data Pegawai Berhasil Di Ubah!");
+                    bersih();
+                    dataTable();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(rootPane, "Data Pegawai Gagal Di Ubah!");
+                    System.out.println(ex);
+                } 
+            }   
         }
     }//GEN-LAST:event_btnEditMouseClicked
 

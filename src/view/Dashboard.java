@@ -347,6 +347,10 @@ public class Dashboard extends javax.swing.JFrame {
     private void mLaporanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mLaporanMouseClicked
         // TODO add your handling code here:
         tnamaMenu.setText("Laporan");
+        
+        mLaporan mLprn = new mLaporan();
+        jDesktopPane1.add(mLprn);
+        mLprn.setVisible(true);
     }//GEN-LAST:event_mLaporanMouseClicked
 
     private void mDataAnggotaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mDataAnggotaMouseClicked

@@ -10,9 +10,13 @@ import database.Koneksi;
 import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.NumberFormat;
+import java.util.Locale;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -23,6 +27,9 @@ public class mTransaksi extends javax.swing.JInternalFrame {
     /**
      * Creates new form mTransaksi
      */
+    private int hargaSatuan = 0;
+    NumberFormat nf = NumberFormat.getNumberInstance(new Locale("in", "ID"));
+    
     public mTransaksi() {
         initComponents();
         
@@ -30,18 +37,25 @@ public class mTransaksi extends javax.swing.JInternalFrame {
         BasicInternalFrameUI bui = (BasicInternalFrameUI) this.getUI();
         bui.setNorthPane(null);
         
+        tIdKaryawan1.setVisible(false);
+        tIdTransaksi.setVisible(false);
+        Id_Order.setVisible(false);
+        
         btnKonfirmasi.setBackground(new Color(0,0,0,0));
         btnKonfirmasi.setOpaque(false);
         
         btnBatal.setBackground(new Color(0,0,0,0));
         btnBatal.setOpaque(false);
+        
+        dataTabel();
     }
     
     public void setData(JLabel data) {
-        tIdKaryawan.setText(data.getText());
+        tIdKaryawan1.setText(data.getText());
     }
     
     public void bersih() {
+        tIdTransaksi.setText("");
         tNoOrder.setText("");
         tNamaPemesan.setText("");
         tJumlahKue.setText("");
@@ -51,6 +65,57 @@ public class mTransaksi extends javax.swing.JInternalFrame {
         tKembali.setText("");
     }
 
+    public void dataTabel() {
+        DefaultTableModel tbl = new DefaultTableModel() {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        };
+                
+        tbl.addColumn("ID Orders");
+        tbl.addColumn("Nama Pemesan");
+        tbl.addColumn("Total Kue");
+        tbl.addColumn("Metode Pembayaran");
+        tbl.addColumn("Harga Total");
+        tbl.addColumn("Bayar");
+        tbl.addColumn("Kembali");
+        tabel.setModel(tbl);
+        tabel.getColumnModel().getColumn(0).setMaxWidth(100);
+        tabel.getColumnModel().getColumn(3).setMinWidth(100);
+
+        try {
+            String sql =  "SELECT orders.ID_orders, orders.nama_pemesan, detail_transaksi.total_kue, "
+                        + "transaksi.metode_bayar, detail_transaksi.harga_total, detail_transaksi.total_bayar, detail_transaksi.kembali "
+                        + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
+                        + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
+                        + "AND orders.ID_orders = transaksi.ID_orders "
+                        + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
+                        + "AND produk.kode_produk = detail_transaksi.kode_produk "
+                        + "GROUP BY orders.ID_orders HAVING detail_transaksi.total_bayar AND detail_transaksi.kembali IS NOT NULL";
+            Statement stat = Koneksi.GetConnection().createStatement();
+            ResultSet res = stat.executeQuery(sql);
+            while(res.next()) {
+                tbl.addRow(new Object[]{
+                    res.getString("orders.ID_orders"),
+                    res.getString("orders.nama_pemesan"),
+                    res.getString("detail_transaksi.total_kue"),
+                    res.getString("transaksi.metode_bayar"),
+                    nf.format(Integer.parseInt(res.getString("detail_transaksi.harga_total"))),
+                    nf.format(Integer.parseInt(res.getString("detail_transaksi.total_bayar"))),
+                    nf.format(Integer.parseInt(res.getString("detail_transaksi.kembali"))),
+                });
+                tabel.setModel(tbl);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(rootPane, "Data Gagal Diambil");
+            System.out.println(ex);
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -61,6 +126,7 @@ public class mTransaksi extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel6 = new javax.swing.JPanel();
+        cStatusBayar = new javax.swing.JComboBox<>();
         btnKonfirmasi = new javax.swing.JPanel();
         btnBatal = new javax.swing.JPanel();
         tKembali = new javax.swing.JTextField();
@@ -70,12 +136,15 @@ public class mTransaksi extends javax.swing.JInternalFrame {
         tNamaPemesan = new javax.swing.JTextField();
         tNoOrder = new javax.swing.JTextField();
         tComboBayar = new javax.swing.JComboBox<>();
-        tIdKaryawan = new javax.swing.JLabel();
+        tIdTransaksi = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabel = new javax.swing.JTable();
         tCari = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        tIdKaryawan1 = new javax.swing.JLabel();
+        Id_Order = new javax.swing.JTextField();
 
         setMinimumSize(new java.awt.Dimension(845, 690));
         setPreferredSize(new java.awt.Dimension(845, 690));
@@ -85,6 +154,18 @@ public class mTransaksi extends javax.swing.JInternalFrame {
         jPanel6.setMinimumSize(new java.awt.Dimension(845, 690));
         jPanel6.setPreferredSize(new java.awt.Dimension(845, 690));
         jPanel6.setLayout(null);
+
+        cStatusBayar.setBackground(new java.awt.Color(204, 204, 204));
+        cStatusBayar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cStatusBayar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Pilih Status -", "Tunai", "Non-Tunai" }));
+        cStatusBayar.setBorder(null);
+        cStatusBayar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cStatusBayarActionPerformed(evt);
+            }
+        });
+        jPanel6.add(cStatusBayar);
+        cStatusBayar.setBounds(230, 380, 140, 30);
 
         btnKonfirmasi.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnKonfirmasi.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -192,10 +273,8 @@ public class mTransaksi extends javax.swing.JInternalFrame {
         tComboBayar.setBorder(null);
         jPanel6.add(tComboBayar);
         tComboBayar.setBounds(180, 223, 190, 35);
-
-        tIdKaryawan.setText("jLabel2");
-        jPanel6.add(tIdKaryawan);
-        tIdKaryawan.setBounds(670, 10, 65, 24);
+        jPanel6.add(tIdTransaksi);
+        tIdTransaksi.setBounds(330, 100, 65, 24);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Form Transaksi.png"))); // NOI18N
         jPanel6.add(jLabel1);
@@ -212,6 +291,11 @@ public class mTransaksi extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabel);
 
         jPanel6.add(jScrollPane1);
@@ -232,6 +316,23 @@ public class mTransaksi extends javax.swing.JInternalFrame {
         jPanel6.add(jLabel3);
         jLabel3.setBounds(580, 380, 31, 30);
 
+        jButton1.setBackground(new java.awt.Color(145, 109, 83));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jButton1.setText("Detail Pesanan");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel6.add(jButton1);
+        jButton1.setBounds(40, 380, 130, 30);
+        jPanel6.add(tIdKaryawan1);
+        tIdKaryawan1.setBounds(670, 10, 65, 24);
+
+        Id_Order.setText("jTextField1");
+        jPanel6.add(Id_Order);
+        Id_Order.setBounds(40, 340, 59, 20);
+
         getContentPane().add(jPanel6);
         jPanel6.setBounds(0, 0, 845, 690);
 
@@ -245,21 +346,32 @@ public class mTransaksi extends javax.swing.JInternalFrame {
             tJumlahKue.setText("");
             tComboBayar.setSelectedIndex(0);
             tTotalHarga.setText("");
+            tIdTransaksi.setText("");
+            tTotalBayar.setText("");
+            tKembali.setText("");
         } else {
             try {
-                String sql = "SELECT transaksi.ID_orders, orders.nama_pemesan, detail_transaksi.total_kue, transaksi.metode_bayar, detail_transaksi.harga_total "
-                           + "FROM transaksi, detail_transaksi, detail_produk, orders "
-                           + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
-                           + "OR detail_produk.kode_produk = detail_transaksi.kode_sub_produk "
-                           + "OR orders.ID_orders = transaksi.ID_orders "
-                           + "GROUP BY transaksi.ID_orders HAVING transaksi.ID_orders = '"+ tNoOrder.getText() +"'";
+                String sql =  "SELECT detail_transaksi.ID_transaksi, orders.ID_orders, orders.nama_pemesan, detail_transaksi.total_kue, "
+                            + "transaksi.metode_bayar, detail_transaksi.harga_total, detail_transaksi.total_bayar, detail_transaksi.kembali "
+                            + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
+                            + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
+                            + "AND orders.ID_orders = transaksi.ID_orders "
+                            + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
+                            + "AND produk.kode_produk = detail_transaksi.kode_produk "
+                            + "GROUP BY orders.ID_orders HAVING orders.ID_orders = '"+ tNoOrder.getText() +"'";
                 Statement stat = Koneksi.GetConnection().createStatement();
                 ResultSet res = stat.executeQuery(sql);
                 if (res.next()) {
+                    tIdTransaksi.setText(res.getString("detail_transaksi.ID_transaksi"));
                     tNamaPemesan.setText(res.getString("orders.nama_pemesan"));
                     tJumlahKue.setText(res.getString("detail_transaksi.total_kue"));
                     tComboBayar.setSelectedItem(res.getString("transaksi.metode_bayar"));
                     tTotalHarga.setText(res.getString("detail_transaksi.harga_total"));
+                    tTotalBayar.setText(res.getString("detail_transaksi.total_bayar"));
+                    tKembali.setText(res.getString("detail_transaksi.kembali"));
+                    if (!tTotalBayar.getText().isEmpty() && !tKembali.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(rootPane, "Pesanan Telah Di Bayarkan");   
+                    } 
                 } 
             } catch (Exception ex) {
                 System.out.println(ex);
@@ -269,6 +381,55 @@ public class mTransaksi extends javax.swing.JInternalFrame {
 
     private void tCariKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tCariKeyReleased
         // TODO add your handling code here:
+        DefaultTableModel tbl = new DefaultTableModel() {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        };
+                
+        tbl.addColumn("ID Orders");
+        tbl.addColumn("Nama Pemesan");
+        tbl.addColumn("Total Kue");
+        tbl.addColumn("Metode Pembayaran");
+        tbl.addColumn("Harga Total");
+        tbl.addColumn("Bayar");
+        tbl.addColumn("Kembali");
+        tabel.setModel(tbl);
+        tabel.getColumnModel().getColumn(0).setMaxWidth(100);
+        tabel.getColumnModel().getColumn(3).setMinWidth(100);
+
+        try {
+            String sql =  "SELECT orders.ID_orders, orders.nama_pemesan, detail_transaksi.total_kue, "
+                        + "transaksi.metode_bayar, detail_transaksi.harga_total, detail_transaksi.total_bayar, detail_transaksi.kembali "
+                        + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
+                        + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
+                        + "AND orders.ID_orders = transaksi.ID_orders "
+                        + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
+                        + "AND produk.kode_produk = detail_transaksi.kode_produk "
+                        + "GROUP BY orders.ID_orders HAVING detail_transaksi.total_bayar AND detail_transaksi.kembali IS NOT NULL "
+                        + "AND orders.ID_orders LIKE '%"+ tCari.getText() +"%' OR orders.nama_pemesan LIKE '%"+ tCari.getText() +"%'";
+            Statement stat = Koneksi.GetConnection().createStatement();
+            ResultSet res = stat.executeQuery(sql);
+            while(res.next()) {
+                tbl.addRow(new Object[]{
+                    res.getString("orders.ID_orders"),
+                    res.getString("orders.nama_pemesan"),
+                    res.getString("detail_transaksi.total_kue"),
+                    res.getString("transaksi.metode_bayar"),
+                    nf.format(Integer.parseInt(res.getString("detail_transaksi.harga_total"))),
+                    nf.format(Integer.parseInt(res.getString("detail_transaksi.total_bayar"))),
+                    nf.format(Integer.parseInt(res.getString("detail_transaksi.kembali"))),
+                });
+                tabel.setModel(tbl);
+            }
+        } catch (Exception ex) {
+//            JOptionPane.showMessageDialog(rootPane, "Data Gagal Diambil");
+            System.out.println(ex);
+        }
     }//GEN-LAST:event_tCariKeyReleased
 
     private void btnBatalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBatalMouseClicked
@@ -278,6 +439,30 @@ public class mTransaksi extends javax.swing.JInternalFrame {
 
     private void btnKonfirmasiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnKonfirmasiMouseClicked
         // TODO add your handling code here:
+        if (tNoOrder.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(rootPane, "Masukan Nomor Order Terlebih Dahulu");
+        } else if (tTotalBayar.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(rootPane, "Mohon Masukan Nominal Pembayaran");
+        } else if (Integer.parseInt(tTotalBayar.getText()) < Integer.parseInt(tTotalHarga.getText())) {
+            JOptionPane.showMessageDialog(rootPane, "Nominal Yang Dimasukan Tidak Cukup");
+        } else {
+            int kembalian = Integer.parseInt(tTotalBayar.getText()) - Integer.parseInt(tTotalHarga.getText());
+            String kembali = Integer.toString(kembalian);
+            tKembali.setText(kembali);
+            
+            try {
+                String sql = "UPDATE detail_transaksi SET total_bayar = '"+ tTotalBayar.getText() +"', "
+                           + "kembali = '"+ tKembali.getText() +"' WHERE ID_transaksi = '"+ tIdTransaksi.getText() +"'";
+                Statement stat = Koneksi.GetConnection().createStatement();
+                stat.execute(sql);
+                JOptionPane.showMessageDialog(rootPane, "Pembayaran Berhasil Di Proses");
+                dataTabel();
+                bersih();
+            } catch (Exception ex) {
+                System.out.println(ex);
+                JOptionPane.showMessageDialog(this, "Pembayaran Gagal Di Proses");
+            }
+        }
     }//GEN-LAST:event_btnKonfirmasiMouseClicked
 
     private void tTotalBayarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tTotalBayarKeyTyped
@@ -296,17 +481,189 @@ public class mTransaksi extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_tNoOrderKeyTyped
 
+    private void cStatusBayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cStatusBayarActionPerformed
+        // TODO add your handling code here:
+        if (cStatusBayar.getSelectedIndex() == 1) {
+            DefaultTableModel tbl = new DefaultTableModel() {
+                boolean[] canEdit = new boolean [] {
+                    false, false, false, false, false
+                };
+
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit [columnIndex];
+                }
+            };
+
+            tbl.addColumn("ID Orders");
+            tbl.addColumn("Nama Pemesan");
+            tbl.addColumn("Total Kue");
+            tbl.addColumn("Metode Pembayaran");
+            tbl.addColumn("Harga Total");
+            tbl.addColumn("Bayar");
+            tbl.addColumn("Kembali");
+            tabel.setModel(tbl);
+            tabel.getColumnModel().getColumn(0).setMaxWidth(100);
+            tabel.getColumnModel().getColumn(3).setMinWidth(100);
+
+            try {
+                String sql =  "SELECT orders.ID_orders, orders.nama_pemesan, detail_transaksi.total_kue, "
+                            + "transaksi.metode_bayar, detail_transaksi.harga_total, detail_transaksi.total_bayar, detail_transaksi.kembali "
+                            + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
+                            + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
+                            + "AND orders.ID_orders = transaksi.ID_orders "
+                            + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
+                            + "AND produk.kode_produk = detail_transaksi.kode_produk "
+                            + "GROUP BY orders.ID_orders HAVING detail_transaksi.total_bayar AND detail_transaksi.kembali IS NOT NULL AND transaksi.metode_bayar = 'Tunai'";
+                Statement stat = Koneksi.GetConnection().createStatement();
+                ResultSet res = stat.executeQuery(sql);
+                while(res.next()) {
+                    tbl.addRow(new Object[]{
+                        res.getString("orders.ID_orders"),
+                        res.getString("orders.nama_pemesan"),
+                        res.getString("detail_transaksi.total_kue"),
+                        res.getString("transaksi.metode_bayar"),
+                        nf.format(Integer.parseInt(res.getString("detail_transaksi.harga_total"))),
+                        nf.format(Integer.parseInt(res.getString("detail_transaksi.total_bayar"))),
+                        nf.format(Integer.parseInt(res.getString("detail_transaksi.kembali"))),
+                    });
+                    tabel.setModel(tbl);
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(rootPane, "Data Gagal Diambil");
+                System.out.println(ex);
+            }
+        } else if (cStatusBayar.getSelectedIndex() == 2) {
+            DefaultTableModel tbl = new DefaultTableModel() {
+                boolean[] canEdit = new boolean [] {
+                    false, false, false, false, false
+                };
+
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit [columnIndex];
+                }
+            };
+
+            tbl.addColumn("ID Orders");
+            tbl.addColumn("Nama Pemesan");
+            tbl.addColumn("Total Kue");
+            tbl.addColumn("Metode Pembayaran");
+            tbl.addColumn("Harga Total");
+            tbl.addColumn("Bayar");
+            tbl.addColumn("Kembali");
+            tabel.setModel(tbl);
+            tabel.getColumnModel().getColumn(0).setMaxWidth(100);
+            tabel.getColumnModel().getColumn(3).setMinWidth(100);
+
+            try {
+                String sql =  "SELECT orders.ID_orders, orders.nama_pemesan, detail_transaksi.total_kue, "
+                            + "transaksi.metode_bayar, detail_transaksi.harga_total, detail_transaksi.total_bayar, detail_transaksi.kembali "
+                            + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
+                            + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
+                            + "AND orders.ID_orders = transaksi.ID_orders "
+                            + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
+                            + "AND produk.kode_produk = detail_transaksi.kode_produk "
+                            + "GROUP BY orders.ID_orders HAVING detail_transaksi.total_bayar AND detail_transaksi.kembali IS NOT NULL AND transaksi.metode_bayar = 'Non-Tunai'";
+                Statement stat = Koneksi.GetConnection().createStatement();
+                ResultSet res = stat.executeQuery(sql);
+                while(res.next()) {
+                    tbl.addRow(new Object[]{
+                        res.getString("orders.ID_orders"),
+                        res.getString("orders.nama_pemesan"),
+                        res.getString("detail_transaksi.total_kue"),
+                        res.getString("transaksi.metode_bayar"),
+                        nf.format(Integer.parseInt(res.getString("detail_transaksi.harga_total"))),
+                        nf.format(Integer.parseInt(res.getString("detail_transaksi.total_bayar"))),
+                        nf.format(Integer.parseInt(res.getString("detail_transaksi.kembali"))),
+                    });
+                    tabel.setModel(tbl);
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(rootPane, "Data Gagal Diambil");
+                System.out.println(ex);
+            }
+        } else {
+            DefaultTableModel tbl = new DefaultTableModel() {
+                boolean[] canEdit = new boolean [] {
+                    false, false, false, false, false
+                };
+
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit [columnIndex];
+                }
+            };
+
+            tbl.addColumn("ID Orders");
+            tbl.addColumn("Nama Pemesan");
+            tbl.addColumn("Total Kue");
+            tbl.addColumn("Metode Pembayaran");
+            tbl.addColumn("Harga Total");
+            tbl.addColumn("Bayar");
+            tbl.addColumn("Kembali");
+            tabel.setModel(tbl);
+            tabel.getColumnModel().getColumn(0).setMaxWidth(100);
+            tabel.getColumnModel().getColumn(3).setMinWidth(100);
+
+            try {
+                String sql =  "SELECT orders.ID_orders, orders.nama_pemesan, detail_transaksi.total_kue, "
+                            + "transaksi.metode_bayar, detail_transaksi.harga_total, detail_transaksi.total_bayar, detail_transaksi.kembali "
+                            + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
+                            + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
+                            + "AND orders.ID_orders = transaksi.ID_orders "
+                            + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
+                            + "AND produk.kode_produk = detail_transaksi.kode_produk "
+                            + "GROUP BY orders.ID_orders HAVING detail_transaksi.total_bayar AND detail_transaksi.kembali IS NOT NULL";
+                Statement stat = Koneksi.GetConnection().createStatement();
+                ResultSet res = stat.executeQuery(sql);
+                while(res.next()) {
+                    tbl.addRow(new Object[]{
+                        res.getString("orders.ID_orders"),
+                        res.getString("orders.nama_pemesan"),
+                        res.getString("detail_transaksi.total_kue"),
+                        res.getString("transaksi.metode_bayar"),
+                        nf.format(Integer.parseInt(res.getString("detail_transaksi.harga_total"))),
+                        nf.format(Integer.parseInt(res.getString("detail_transaksi.total_bayar"))),
+                        nf.format(Integer.parseInt(res.getString("detail_transaksi.kembali"))),
+                    });
+                    tabel.setModel(tbl);
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(rootPane, "Data Gagal Diambil");
+                System.out.println(ex);
+            }
+        }
+    }//GEN-LAST:event_cStatusBayarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        mDetailTransaksi mDT = new mDetailTransaksi();
+        mDT.setData(Id_Order);
+        mDT.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void tabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelMouseClicked
+        // TODO add your handling code here:
+        int i = tabel.getSelectedRow();
+        TableModel tb = tabel.getModel();
+        
+        String data1 = tb.getValueAt(i, 0).toString();
+        Id_Order.setText(data1);
+    }//GEN-LAST:event_tabelMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField Id_Order;
     private javax.swing.JPanel btnBatal;
     private javax.swing.JPanel btnKonfirmasi;
+    private javax.swing.JComboBox<String> cStatusBayar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField tCari;
     private javax.swing.JComboBox<String> tComboBayar;
-    private javax.swing.JLabel tIdKaryawan;
+    private javax.swing.JLabel tIdKaryawan1;
+    private javax.swing.JLabel tIdTransaksi;
     private javax.swing.JTextField tJumlahKue;
     private javax.swing.JTextField tKembali;
     private javax.swing.JTextField tNamaPemesan;
