@@ -143,7 +143,8 @@ public class Splash_Screen extends javax.swing.JFrame {
 
         /* Create and display the form */
         Splash_Screen sp = new Splash_Screen();
-        Login_Screen ls = new Login_Screen();
+        KeranjangOrder krjOrd = new KeranjangOrder();
+        DashboardOrder dsOrd = new DashboardOrder();
         sp.setVisible(true);
         
         try{
@@ -168,8 +169,9 @@ public class Splash_Screen extends javax.swing.JFrame {
                        sp.statusLoading.setText("Launching Application...");
                        break;
                    case 100:
-                       sp.setVisible(false);
-                       ls.setVisible(true);
+                       sp.dispose();
+                       krjOrd.setVisible(true);
+                       dsOrd.setVisible(true);
                        break;
                    default:
                        break;

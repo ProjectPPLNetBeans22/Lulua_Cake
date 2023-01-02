@@ -5,15 +5,12 @@
  */
 package view;
 
-import com.toedter.calendar.JDateChooser;
-import com.toedter.calendar.JTextFieldDateEditor;
 import com.toedter.calendar.JYearChooser;
 import database.Koneksi;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Locale;
 import javax.swing.JOptionPane;
@@ -43,6 +40,8 @@ public class mLaporan extends javax.swing.JInternalFrame {
         this.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         BasicInternalFrameUI bui = (BasicInternalFrameUI) this.getUI();
         bui.setNorthPane(null);
+        
+        nmBulan.setVisible(false);
         
         jYearChooser1.setHorizontalAlignment((int) JYearChooser.LEFT_ALIGNMENT);
         
@@ -131,12 +130,14 @@ public class mLaporan extends javax.swing.JInternalFrame {
         tabel.setModel(tbl);
 
         try {
-            String sql =  "SELECT pegawai.nama_pegawai, COUNT(transaksi.ID_transaksi) AS totalTransaksi, transaksi.tgl_pesan, "
+             String sql =  "SELECT pegawai.nama_pegawai, COUNT(transaksi.ID_transaksi) AS totalTransaksi, transaksi.tgl_pesan, "
                         + "SUM(detail_transaksi.total_kue) AS totalKue, SUM(detail_transaksi.harga_total) AS totalPendapatan "
                         + "FROM transaksi, detail_transaksi, produk, pegawai "
                         + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
                         + "AND produk.kode_produk = detail_transaksi.kode_produk "
-                        + "AND pegawai.ID_pegawai = transaksi.ID_pegawai GROUP BY pegawai.nama_pegawai";
+                        + "AND pegawai.ID_pegawai = transaksi.ID_pegawai "
+                        + "AND DATE_FORMAT(transaksi.tgl_pesan, '%Y') = '"+ jYearChooser1.getYear() +"' "
+                        + "GROUP BY pegawai.nama_pegawai";
             Statement stat = Koneksi.GetConnection().createStatement();
             ResultSet res = stat.executeQuery(sql);
             while(res.next()) {
@@ -164,6 +165,7 @@ public class mLaporan extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        nmBulan = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         tOrderSelesai = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -188,6 +190,8 @@ public class mLaporan extends javax.swing.JInternalFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(null);
+        jPanel1.add(nmBulan);
+        nmBulan.setBounds(420, 210, 60, 20);
 
         jPanel5.setBackground(new java.awt.Color(75, 53, 36));
 
@@ -288,7 +292,13 @@ public class mLaporan extends javax.swing.JInternalFrame {
         tBulan.setBackground(new java.awt.Color(204, 204, 204));
         tBulan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tBulan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Pilih Bulan -", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember" }));
+        tBulan.setToolTipText("");
         tBulan.setBorder(null);
+        tBulan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tBulanActionPerformed(evt);
+            }
+        });
         jPanel1.add(tBulan);
         tBulan.setBounds(440, 250, 120, 30);
 
@@ -306,8 +316,6 @@ public class mLaporan extends javax.swing.JInternalFrame {
         jLabel2.setText("Tahun :");
         jPanel1.add(jLabel2);
         jLabel2.setBounds(580, 250, 50, 30);
-
-        jYearChooser1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jPanel1.add(jYearChooser1);
         jYearChooser1.setBounds(630, 250, 70, 30);
 
@@ -359,8 +367,9 @@ public class mLaporan extends javax.swing.JInternalFrame {
                         + "FROM transaksi, detail_transaksi, produk, pegawai "
                         + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
                         + "AND produk.kode_produk = detail_transaksi.kode_produk "
-                        + "AND pegawai.ID_pegawai = transaksi.ID_pegawai GROUP BY pegawai.nama_pegawai "
-                        + "HAVING DATE_FORMAT(transaksi.tgl_pesan,'%m') = '"+ tBulan.getSelectedIndex() +"' AND DATE_FORMAT(transaksi.tgl_pesan, '%Y') = '"+ jYearChooser1.getYear() +"'";
+                        + "AND pegawai.ID_pegawai = transaksi.ID_pegawai "
+                        + "AND DATE_FORMAT(transaksi.tgl_pesan,'%m') LIKE '%"+ nmBulan.getText() +"%' AND DATE_FORMAT(transaksi.tgl_pesan, '%Y') = '"+ jYearChooser1.getYear() +"' "
+                        + "GROUP BY pegawai.nama_pegawai";
             Statement stat = Koneksi.GetConnection().createStatement();
             ResultSet res = stat.executeQuery(sql);
             while(res.next()) {
@@ -394,12 +403,11 @@ public class mLaporan extends javax.swing.JInternalFrame {
                 String pass = "";
 
                 con = DriverManager.getConnection(url, user, pass);
-                Statement stat = con.createStatement();
 
                 try {
                     String report = "C:\\Users\\hafid\\OneDrive\\Documents\\NetBeansProjects\\TOKO KUE\\src\\report\\Laporan.jrxml";
                     HashMap hash = new HashMap();
-                    hash.put("bulan", tBulan.getSelectedIndex());
+                    hash.put("bulan", nmBulan.getText());
                     hash.put("tahun", jYearChooser1.getYear());
 
                     JasperReport JsRpt = JasperCompileManager.compileReport(report);
@@ -413,6 +421,50 @@ public class mLaporan extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void tBulanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tBulanActionPerformed
+        // TODO add your handling code here:
+        switch (tBulan.getSelectedIndex()) {
+            case 1:
+                nmBulan.setText("01");
+                break;
+            case 2:
+                nmBulan.setText("02");
+                break;
+            case 3:
+                nmBulan.setText("03");
+                break;
+            case 4:
+                nmBulan.setText("04");
+                break;
+            case 5:
+                nmBulan.setText("05");
+                break;
+            case 6:
+                nmBulan.setText("06");
+                break;
+            case 7:
+                nmBulan.setText("07");
+                break;
+            case 8:
+                nmBulan.setText("08");
+                break;
+            case 9:
+                nmBulan.setText("09");
+                break;
+            case 10:
+                nmBulan.setText("10");
+                break;
+            case 11:
+                nmBulan.setText("11");
+                break;
+            case 12:
+                nmBulan.setText("12");
+                break;
+            default:
+                break;
+        }
+    }//GEN-LAST:event_tBulanActionPerformed
 
     
 
@@ -429,6 +481,7 @@ public class mLaporan extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private com.toedter.calendar.JYearChooser jYearChooser1;
+    private javax.swing.JLabel nmBulan;
     private javax.swing.JComboBox<String> tBulan;
     private javax.swing.JLabel tKaryawan;
     private javax.swing.JLabel tOrderBerlangsung;

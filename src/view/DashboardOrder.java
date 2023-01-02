@@ -6,19 +6,33 @@
 package view;
 
 import com.sun.glass.events.KeyEvent;
+import database.Koneksi;
 import java.awt.Color;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author hafid
  */
 public class DashboardOrder extends javax.swing.JFrame {
-
+    
+    ArrayList kue = new ArrayList();
     /**
      * Creates new form DashboardOrder
      */
     public DashboardOrder() {
         initComponents();
+        
+        tIdKue.setVisible(false);
+        tIdOrder.setVisible(false);
+        tTart.setVisible(false);
+        tBrownies.setVisible(false);
+        tCupCake.setVisible(false);
+        tPudding.setVisible(false);
         
         btnTart.setBackground(new Color(0,0,0,0));
         btnTart.setOpaque(false);
@@ -32,13 +46,25 @@ public class DashboardOrder extends javax.swing.JFrame {
         btnPuding.setBackground(new Color(0,0,0,0));
         btnPuding.setOpaque(false);
         
-        btnKeranjang.setBackground(new Color(0,0,0,0));
-        btnKeranjang.setOpaque(false);
-        
         btnCustomCake.setBackground(new Color(0,0,0,0));
         btnCustomCake.setOpaque(false);
+        
+        btnLihatKeranjang.setBackground(new Color(0,0,0,0));
+        btnLihatKeranjang.setOpaque(false);
+        
+        btnLogin.setBackground(new Color(0,0,0,0));
+        btnLogin.setOpaque(false);
     }
-
+    
+    public void clear() {
+        tTart.setText("");
+        tIdKue.setText("");
+    }
+    
+    public void setData(JLabel data) {
+        tNamaPemesan.setText(data.getText());
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -49,164 +75,174 @@ public class DashboardOrder extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        btnLogin = new javax.swing.JPanel();
+        btnLihatKeranjang = new javax.swing.JPanel();
+        tIdKue = new javax.swing.JLabel();
+        tTart = new javax.swing.JLabel();
+        tIdOrder = new javax.swing.JLabel();
+        tCupCake = new javax.swing.JLabel();
+        tPudding = new javax.swing.JLabel();
+        tBrownies = new javax.swing.JLabel();
+        btnSimpan = new javax.swing.JButton();
+        btnKeranjang = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         KueTart = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel4 = new javax.swing.JPanel();
         KueSiramCoklat12 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jCheckBox1 = new javax.swing.JCheckBox();
         KueSiramCoklat13 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jRadioButton2 = new javax.swing.JRadioButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
+        jCheckBox2 = new javax.swing.JCheckBox();
         KueSiramCoklat15 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
-        jRadioButton3 = new javax.swing.JRadioButton();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
+        jCheckBox3 = new javax.swing.JCheckBox();
         KueSiramCoklat16 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
-        jRadioButton4 = new javax.swing.JRadioButton();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
+        jCheckBox4 = new javax.swing.JCheckBox();
         KueSiramCoklat20 = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
-        jRadioButton5 = new javax.swing.JRadioButton();
         jLabel23 = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
+        jCheckBox5 = new javax.swing.JCheckBox();
         KueKoreanCake12 = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
-        jRadioButton6 = new javax.swing.JRadioButton();
         jLabel28 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
+        jCheckBox6 = new javax.swing.JCheckBox();
         KueKoreanCake13 = new javax.swing.JPanel();
         jLabel32 = new javax.swing.JLabel();
-        jRadioButton7 = new javax.swing.JRadioButton();
         jLabel33 = new javax.swing.JLabel();
         jLabel34 = new javax.swing.JLabel();
         jLabel35 = new javax.swing.JLabel();
         jLabel36 = new javax.swing.JLabel();
+        jCheckBox7 = new javax.swing.JCheckBox();
         KueKoreanCake15 = new javax.swing.JPanel();
         jLabel37 = new javax.swing.JLabel();
-        jRadioButton8 = new javax.swing.JRadioButton();
         jLabel38 = new javax.swing.JLabel();
         jLabel39 = new javax.swing.JLabel();
         jLabel40 = new javax.swing.JLabel();
         jLabel41 = new javax.swing.JLabel();
+        jCheckBox8 = new javax.swing.JCheckBox();
         KueKoreanCake16 = new javax.swing.JPanel();
         jLabel42 = new javax.swing.JLabel();
-        jRadioButton9 = new javax.swing.JRadioButton();
         jLabel43 = new javax.swing.JLabel();
         jLabel44 = new javax.swing.JLabel();
         jLabel45 = new javax.swing.JLabel();
         jLabel46 = new javax.swing.JLabel();
+        jCheckBox9 = new javax.swing.JCheckBox();
         KueCharacterCake15 = new javax.swing.JPanel();
         jLabel47 = new javax.swing.JLabel();
-        jRadioButton10 = new javax.swing.JRadioButton();
         jLabel48 = new javax.swing.JLabel();
         jLabel49 = new javax.swing.JLabel();
         jLabel50 = new javax.swing.JLabel();
         jLabel51 = new javax.swing.JLabel();
+        jCheckBox10 = new javax.swing.JCheckBox();
         KueCharacterCake16 = new javax.swing.JPanel();
         jLabel52 = new javax.swing.JLabel();
-        jRadioButton11 = new javax.swing.JRadioButton();
         jLabel53 = new javax.swing.JLabel();
         jLabel54 = new javax.swing.JLabel();
         jLabel55 = new javax.swing.JLabel();
         jLabel56 = new javax.swing.JLabel();
+        jCheckBox11 = new javax.swing.JCheckBox();
         KueCharacterCake20 = new javax.swing.JPanel();
         jLabel57 = new javax.swing.JLabel();
-        jRadioButton12 = new javax.swing.JRadioButton();
         jLabel58 = new javax.swing.JLabel();
         jLabel59 = new javax.swing.JLabel();
         jLabel60 = new javax.swing.JLabel();
         jLabel61 = new javax.swing.JLabel();
+        jCheckBox12 = new javax.swing.JCheckBox();
         KueCakeLukis12 = new javax.swing.JPanel();
         jLabel62 = new javax.swing.JLabel();
-        jRadioButton13 = new javax.swing.JRadioButton();
         jLabel63 = new javax.swing.JLabel();
         jLabel64 = new javax.swing.JLabel();
         jLabel65 = new javax.swing.JLabel();
         jLabel66 = new javax.swing.JLabel();
+        jCheckBox13 = new javax.swing.JCheckBox();
         KueCakeLukis13 = new javax.swing.JPanel();
         jLabel67 = new javax.swing.JLabel();
-        jRadioButton14 = new javax.swing.JRadioButton();
         jLabel68 = new javax.swing.JLabel();
         jLabel69 = new javax.swing.JLabel();
         jLabel70 = new javax.swing.JLabel();
         jLabel71 = new javax.swing.JLabel();
+        jCheckBox14 = new javax.swing.JCheckBox();
         KueCupCake = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jPanel5 = new javax.swing.JPanel();
         KueSiramCoklat14 = new javax.swing.JPanel();
         jLabel72 = new javax.swing.JLabel();
-        jRadioButton15 = new javax.swing.JRadioButton();
         jLabel73 = new javax.swing.JLabel();
         jLabel74 = new javax.swing.JLabel();
+        jCheckBox15 = new javax.swing.JCheckBox();
         KueBrownies = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jPanel6 = new javax.swing.JPanel();
         KueBrowniesAlmonds = new javax.swing.JPanel();
         jLabel75 = new javax.swing.JLabel();
-        jRadioButton16 = new javax.swing.JRadioButton();
         jLabel76 = new javax.swing.JLabel();
         jLabel77 = new javax.swing.JLabel();
         jLabel78 = new javax.swing.JLabel();
         jLabel79 = new javax.swing.JLabel();
+        jCheckBox16 = new javax.swing.JCheckBox();
         KueBrowniesChocochips = new javax.swing.JPanel();
         jLabel80 = new javax.swing.JLabel();
-        jRadioButton17 = new javax.swing.JRadioButton();
         jLabel81 = new javax.swing.JLabel();
         jLabel82 = new javax.swing.JLabel();
         jLabel83 = new javax.swing.JLabel();
         jLabel84 = new javax.swing.JLabel();
+        jCheckBox17 = new javax.swing.JCheckBox();
         KueBrowniesOreo = new javax.swing.JPanel();
         jLabel85 = new javax.swing.JLabel();
-        jRadioButton18 = new javax.swing.JRadioButton();
         jLabel86 = new javax.swing.JLabel();
         jLabel87 = new javax.swing.JLabel();
         jLabel88 = new javax.swing.JLabel();
         jLabel89 = new javax.swing.JLabel();
+        jCheckBox18 = new javax.swing.JCheckBox();
         KueBrowniesMix = new javax.swing.JPanel();
         jLabel90 = new javax.swing.JLabel();
-        jRadioButton19 = new javax.swing.JRadioButton();
         jLabel91 = new javax.swing.JLabel();
         jLabel92 = new javax.swing.JLabel();
         jLabel93 = new javax.swing.JLabel();
         jLabel94 = new javax.swing.JLabel();
+        jCheckBox19 = new javax.swing.JCheckBox();
         KuePudding = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jPanel7 = new javax.swing.JPanel();
         KuePudding15 = new javax.swing.JPanel();
         jLabel95 = new javax.swing.JLabel();
-        jRadioButton20 = new javax.swing.JRadioButton();
         jLabel96 = new javax.swing.JLabel();
         jLabel97 = new javax.swing.JLabel();
         jLabel98 = new javax.swing.JLabel();
         jLabel99 = new javax.swing.JLabel();
+        jCheckBox20 = new javax.swing.JCheckBox();
         KuePudding16 = new javax.swing.JPanel();
         jLabel100 = new javax.swing.JLabel();
-        jRadioButton21 = new javax.swing.JRadioButton();
         jLabel101 = new javax.swing.JLabel();
         jLabel102 = new javax.swing.JLabel();
         jLabel103 = new javax.swing.JLabel();
         jLabel104 = new javax.swing.JLabel();
+        jCheckBox21 = new javax.swing.JCheckBox();
         tNamaPemesan = new javax.swing.JTextField();
         tNoHP = new javax.swing.JTextField();
         btnCustomCake = new javax.swing.JPanel();
@@ -214,7 +250,6 @@ public class DashboardOrder extends javax.swing.JFrame {
         btnCupCake = new javax.swing.JPanel();
         btnBrownies = new javax.swing.JPanel();
         btnTart = new javax.swing.JPanel();
-        btnKeranjang = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -223,14 +258,97 @@ public class DashboardOrder extends javax.swing.JFrame {
 
         jPanel1.setLayout(null);
 
+        btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLogin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLoginMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout btnLoginLayout = new javax.swing.GroupLayout(btnLogin);
+        btnLogin.setLayout(btnLoginLayout);
+        btnLoginLayout.setHorizontalGroup(
+            btnLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 40, Short.MAX_VALUE)
+        );
+        btnLoginLayout.setVerticalGroup(
+            btnLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 40, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(btnLogin);
+        btnLogin.setBounds(1052, 6, 40, 40);
+
+        btnLihatKeranjang.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLihatKeranjang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnLihatKeranjangMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout btnLihatKeranjangLayout = new javax.swing.GroupLayout(btnLihatKeranjang);
+        btnLihatKeranjang.setLayout(btnLihatKeranjangLayout);
+        btnLihatKeranjangLayout.setHorizontalGroup(
+            btnLihatKeranjangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 40, Short.MAX_VALUE)
+        );
+        btnLihatKeranjangLayout.setVerticalGroup(
+            btnLihatKeranjangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 40, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(btnLihatKeranjang);
+        btnLihatKeranjang.setBounds(1005, 6, 40, 40);
+        jPanel1.add(tIdKue);
+        tIdKue.setBounds(580, 110, 75, 30);
+
+        tTart.setText("KodeTart");
+        jPanel1.add(tTart);
+        tTart.setBounds(790, 80, 60, 20);
+        jPanel1.add(tIdOrder);
+        tIdOrder.setBounds(790, 200, 90, 20);
+
+        tCupCake.setText("KodeCupCake");
+        jPanel1.add(tCupCake);
+        tCupCake.setBounds(790, 110, 90, 20);
+
+        tPudding.setText("KodePudding");
+        jPanel1.add(tPudding);
+        tPudding.setBounds(790, 170, 90, 20);
+
+        tBrownies.setText("KodeBrowniies");
+        jPanel1.add(tBrownies);
+        tBrownies.setBounds(790, 140, 90, 20);
+
+        btnSimpan.setBackground(new java.awt.Color(145, 109, 83));
+        btnSimpan.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        btnSimpan.setText("Simpan Data");
+        btnSimpan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSimpanActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnSimpan);
+        btnSimpan.setBounds(364, 188, 181, 41);
+
+        btnKeranjang.setBackground(new java.awt.Color(145, 109, 83));
+        btnKeranjang.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        btnKeranjang.setText("Masukan Keranjang");
+        btnKeranjang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKeranjangActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnKeranjang);
+        btnKeranjang.setBounds(565, 188, 170, 41);
+
+        jPanel2.setPreferredSize(new java.awt.Dimension(830, 462));
+
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         KueSiramCoklat12.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/KUE/KUE SIRAM COKLAT/KUE SR 12CM.png"))); // NOI18N
-
-        jRadioButton1.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jRadioButton1.setText("Kue Siram Coklat | 12 cm");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setText("Harga :");
@@ -244,34 +362,38 @@ public class DashboardOrder extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setText("12 cm");
 
+        jCheckBox1.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jCheckBox1.setText("Kue Siram Coklat | 12 cm");
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout KueSiramCoklat12Layout = new javax.swing.GroupLayout(KueSiramCoklat12);
         KueSiramCoklat12.setLayout(KueSiramCoklat12Layout);
         KueSiramCoklat12Layout.setHorizontalGroup(
             KueSiramCoklat12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(KueSiramCoklat12Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(KueSiramCoklat12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, KueSiramCoklat12Layout.createSequentialGroup()
-                        .addGroup(KueSiramCoklat12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addGroup(KueSiramCoklat12Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(50, 50, 50)
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel6)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(KueSiramCoklat12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jCheckBox1)
+                    .addComponent(jLabel2)
                     .addGroup(KueSiramCoklat12Layout.createSequentialGroup()
                         .addGroup(KueSiramCoklat12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButton1)
-                            .addComponent(jLabel2))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3))
+                        .addGap(47, 47, 47)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel6)))
+                .addGap(0, 11, Short.MAX_VALUE))
         );
         KueSiramCoklat12Layout.setVerticalGroup(
             KueSiramCoklat12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(KueSiramCoklat12Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jRadioButton1)
+                .addComponent(jCheckBox1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -288,9 +410,6 @@ public class DashboardOrder extends javax.swing.JFrame {
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/KUE/KUE SIRAM COKLAT/KUE SR 13CM.png"))); // NOI18N
 
-        jRadioButton2.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jRadioButton2.setText("Kue Siram Coklat | 13 cm");
-
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel8.setText("Harga :");
 
@@ -303,6 +422,14 @@ public class DashboardOrder extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel11.setText("13 cm");
 
+        jCheckBox2.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jCheckBox2.setText("Kue Siram Coklat | 13 cm");
+        jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout KueSiramCoklat13Layout = new javax.swing.GroupLayout(KueSiramCoklat13);
         KueSiramCoklat13.setLayout(KueSiramCoklat13Layout);
         KueSiramCoklat13Layout.setHorizontalGroup(
@@ -310,27 +437,24 @@ public class DashboardOrder extends javax.swing.JFrame {
             .addGroup(KueSiramCoklat13Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(KueSiramCoklat13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(KueSiramCoklat13Layout.createSequentialGroup()
-                        .addComponent(jRadioButton2)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jCheckBox2)
+                    .addComponent(jLabel7)
                     .addGroup(KueSiramCoklat13Layout.createSequentialGroup()
                         .addGroup(KueSiramCoklat13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel9)
-                            .addGroup(KueSiramCoklat13Layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addGap(59, 59, 59)
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel11)))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9))
+                        .addGap(40, 40, 40)
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel11)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         KueSiramCoklat13Layout.setVerticalGroup(
             KueSiramCoklat13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(KueSiramCoklat13Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jRadioButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBox2)
+                .addGap(7, 7, 7)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(KueSiramCoklat13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -339,15 +463,12 @@ public class DashboardOrder extends javax.swing.JFrame {
                     .addComponent(jLabel11))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel9)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         KueSiramCoklat15.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/KUE/KUE SIRAM COKLAT/KUE SR 15CM.png"))); // NOI18N
-
-        jRadioButton3.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jRadioButton3.setText("Kue Siram Coklat | 15 cm");
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel13.setText("Harga :");
@@ -361,6 +482,14 @@ public class DashboardOrder extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel16.setText("15 cm");
 
+        jCheckBox3.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jCheckBox3.setText("Kue Siram Coklat | 15 cm");
+        jCheckBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout KueSiramCoklat15Layout = new javax.swing.GroupLayout(KueSiramCoklat15);
         KueSiramCoklat15.setLayout(KueSiramCoklat15Layout);
         KueSiramCoklat15Layout.setHorizontalGroup(
@@ -368,6 +497,7 @@ public class DashboardOrder extends javax.swing.JFrame {
             .addGroup(KueSiramCoklat15Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(KueSiramCoklat15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBox3)
                     .addComponent(jLabel14)
                     .addGroup(KueSiramCoklat15Layout.createSequentialGroup()
                         .addComponent(jLabel13)
@@ -375,16 +505,15 @@ public class DashboardOrder extends javax.swing.JFrame {
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel16))
-                    .addComponent(jRadioButton3)
                     .addComponent(jLabel12))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
         KueSiramCoklat15Layout.setVerticalGroup(
             KueSiramCoklat15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(KueSiramCoklat15Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jRadioButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBox3)
+                .addGap(7, 7, 7)
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(KueSiramCoklat15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -393,15 +522,12 @@ public class DashboardOrder extends javax.swing.JFrame {
                     .addComponent(jLabel16))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel14)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         KueSiramCoklat16.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/KUE/KUE SIRAM COKLAT/KUE SR 16CM.png"))); // NOI18N
-
-        jRadioButton4.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jRadioButton4.setText("Kue Siram Coklat | 16 cm");
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel18.setText("Harga :");
@@ -415,6 +541,14 @@ public class DashboardOrder extends javax.swing.JFrame {
         jLabel21.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel21.setText("16 cm");
 
+        jCheckBox4.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jCheckBox4.setText("Kue Siram Coklat | 16 cm");
+        jCheckBox4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout KueSiramCoklat16Layout = new javax.swing.GroupLayout(KueSiramCoklat16);
         KueSiramCoklat16.setLayout(KueSiramCoklat16Layout);
         KueSiramCoklat16Layout.setHorizontalGroup(
@@ -423,27 +557,26 @@ public class DashboardOrder extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(KueSiramCoklat16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(KueSiramCoklat16Layout.createSequentialGroup()
-                        .addComponent(jLabel17)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(KueSiramCoklat16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel19)
+                            .addComponent(jLabel18))
+                        .addGap(32, 32, 32)
+                        .addComponent(jLabel20)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel21)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(KueSiramCoklat16Layout.createSequentialGroup()
                         .addGroup(KueSiramCoklat16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButton4)
-                            .addGroup(KueSiramCoklat16Layout.createSequentialGroup()
-                                .addGroup(KueSiramCoklat16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel19)
-                                    .addComponent(jLabel18))
-                                .addGap(32, 32, 32)
-                                .addComponent(jLabel20)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel21)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jCheckBox4)
+                            .addComponent(jLabel17))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         KueSiramCoklat16Layout.setVerticalGroup(
             KueSiramCoklat16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(KueSiramCoklat16Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jRadioButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBox4)
+                .addGap(7, 7, 7)
                 .addComponent(jLabel17)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(KueSiramCoklat16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -452,15 +585,12 @@ public class DashboardOrder extends javax.swing.JFrame {
                     .addComponent(jLabel21))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel19)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         KueSiramCoklat20.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/KUE/KUE SIRAM COKLAT/KUE SR 20CM.png"))); // NOI18N
-
-        jRadioButton5.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jRadioButton5.setText("Kue Siram Coklat | 20 cm");
 
         jLabel23.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel23.setText("Harga :");
@@ -474,6 +604,14 @@ public class DashboardOrder extends javax.swing.JFrame {
         jLabel26.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel26.setText("20 cm");
 
+        jCheckBox5.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jCheckBox5.setText("Kue Siram Coklat | 20 cm");
+        jCheckBox5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout KueSiramCoklat20Layout = new javax.swing.GroupLayout(KueSiramCoklat20);
         KueSiramCoklat20.setLayout(KueSiramCoklat20Layout);
         KueSiramCoklat20Layout.setHorizontalGroup(
@@ -481,29 +619,25 @@ public class DashboardOrder extends javax.swing.JFrame {
             .addGroup(KueSiramCoklat20Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(KueSiramCoklat20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBox5)
                     .addComponent(jLabel24)
                     .addGroup(KueSiramCoklat20Layout.createSequentialGroup()
                         .addComponent(jLabel23)
                         .addGap(61, 61, 61)
                         .addComponent(jLabel25)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel26)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, KueSiramCoklat20Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(KueSiramCoklat20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRadioButton5)
+                        .addComponent(jLabel26))
                     .addComponent(jLabel22))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         KueSiramCoklat20Layout.setVerticalGroup(
             KueSiramCoklat20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(KueSiramCoklat20Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jRadioButton5)
+                .addComponent(jCheckBox5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel22)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(11, 11, 11)
                 .addGroup(KueSiramCoklat20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel23)
                     .addComponent(jLabel25)
@@ -517,9 +651,6 @@ public class DashboardOrder extends javax.swing.JFrame {
 
         jLabel27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/KUE/KOREAN CAKE/KUE KC 12CM.png"))); // NOI18N
 
-        jRadioButton6.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jRadioButton6.setText("Kue Korean Cake | 12 cm");
-
         jLabel28.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel28.setText("Harga :");
 
@@ -530,7 +661,15 @@ public class DashboardOrder extends javax.swing.JFrame {
         jLabel30.setText("Diameter :");
 
         jLabel31.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel31.setText("20 cm");
+        jLabel31.setText("12 cm");
+
+        jCheckBox6.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jCheckBox6.setText("Kue Korean Cake | 12 cm");
+        jCheckBox6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout KueKoreanCake12Layout = new javax.swing.GroupLayout(KueKoreanCake12);
         KueKoreanCake12.setLayout(KueKoreanCake12Layout);
@@ -541,11 +680,10 @@ public class DashboardOrder extends javax.swing.JFrame {
                 .addGroup(KueKoreanCake12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, KueKoreanCake12Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(KueKoreanCake12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel27)
-                            .addComponent(jRadioButton6)))
+                        .addComponent(jLabel27))
                     .addGroup(KueKoreanCake12Layout.createSequentialGroup()
                         .addGroup(KueKoreanCake12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBox6)
                             .addComponent(jLabel29)
                             .addGroup(KueKoreanCake12Layout.createSequentialGroup()
                                 .addComponent(jLabel28)
@@ -560,7 +698,7 @@ public class DashboardOrder extends javax.swing.JFrame {
             KueKoreanCake12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(KueKoreanCake12Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jRadioButton6)
+                .addComponent(jCheckBox6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel27)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -577,9 +715,6 @@ public class DashboardOrder extends javax.swing.JFrame {
 
         jLabel32.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/KUE/KOREAN CAKE/KUE KC 13CM.png"))); // NOI18N
 
-        jRadioButton7.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jRadioButton7.setText("Kue Korean Cake | 13 cm");
-
         jLabel33.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel33.setText("Harga :");
 
@@ -592,6 +727,14 @@ public class DashboardOrder extends javax.swing.JFrame {
         jLabel36.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel36.setText("13 cm");
 
+        jCheckBox7.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jCheckBox7.setText("Kue Korean Cake | 13 cm");
+        jCheckBox7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox7ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout KueKoreanCake13Layout = new javax.swing.GroupLayout(KueKoreanCake13);
         KueKoreanCake13.setLayout(KueKoreanCake13Layout);
         KueKoreanCake13Layout.setHorizontalGroup(
@@ -600,29 +743,29 @@ public class DashboardOrder extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(KueKoreanCake13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(KueKoreanCake13Layout.createSequentialGroup()
+                        .addComponent(jCheckBox7)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(KueKoreanCake13Layout.createSequentialGroup()
                         .addGroup(KueKoreanCake13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel34)
-                            .addComponent(jLabel33))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel35)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel36)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, KueKoreanCake13Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(KueKoreanCake13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(KueKoreanCake13Layout.createSequentialGroup()
+                                .addGroup(KueKoreanCake13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel34)
+                                    .addComponent(jLabel33))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel35)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel36)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, KueKoreanCake13Layout.createSequentialGroup()
-                                .addComponent(jRadioButton7)
-                                .addGap(119, 119, 119))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, KueKoreanCake13Layout.createSequentialGroup()
-                                .addComponent(jLabel32)
-                                .addContainerGap())))))
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel32)))
+                        .addContainerGap())))
         );
         KueKoreanCake13Layout.setVerticalGroup(
             KueKoreanCake13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(KueKoreanCake13Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jRadioButton7)
+                .addComponent(jCheckBox7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel32)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -639,9 +782,6 @@ public class DashboardOrder extends javax.swing.JFrame {
 
         jLabel37.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/KUE/KOREAN CAKE/KUE KC 15CM.png"))); // NOI18N
 
-        jRadioButton8.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jRadioButton8.setText("Kue Korean Cake | 15 cm");
-
         jLabel38.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel38.setText("Harga :");
 
@@ -653,6 +793,14 @@ public class DashboardOrder extends javax.swing.JFrame {
 
         jLabel41.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel41.setText("15 cm");
+
+        jCheckBox8.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jCheckBox8.setText("Kue Korean Cake | 15 cm");
+        jCheckBox8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox8ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout KueKoreanCake15Layout = new javax.swing.GroupLayout(KueKoreanCake15);
         KueKoreanCake15.setLayout(KueKoreanCake15Layout);
@@ -672,7 +820,7 @@ public class DashboardOrder extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(KueKoreanCake15Layout.createSequentialGroup()
                         .addGroup(KueKoreanCake15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButton8)
+                            .addComponent(jCheckBox8)
                             .addComponent(jLabel37))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
@@ -680,7 +828,7 @@ public class DashboardOrder extends javax.swing.JFrame {
             KueKoreanCake15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(KueKoreanCake15Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jRadioButton8)
+                .addComponent(jCheckBox8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel37)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -697,9 +845,6 @@ public class DashboardOrder extends javax.swing.JFrame {
 
         jLabel42.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/KUE/KOREAN CAKE/KUE KC 16CM.png"))); // NOI18N
 
-        jRadioButton9.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jRadioButton9.setText("Kue Korean Cake | 16 cm");
-
         jLabel43.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel43.setText("Harga :");
 
@@ -712,6 +857,14 @@ public class DashboardOrder extends javax.swing.JFrame {
         jLabel46.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel46.setText("16 cm");
 
+        jCheckBox9.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jCheckBox9.setText("Kue Korean Cake | 16 cm");
+        jCheckBox9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox9ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout KueKoreanCake16Layout = new javax.swing.GroupLayout(KueKoreanCake16);
         KueKoreanCake16.setLayout(KueKoreanCake16Layout);
         KueKoreanCake16Layout.setHorizontalGroup(
@@ -719,22 +872,25 @@ public class DashboardOrder extends javax.swing.JFrame {
             .addGroup(KueKoreanCake16Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(KueKoreanCake16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRadioButton9)
-                    .addComponent(jLabel42)
-                    .addComponent(jLabel44)
+                    .addComponent(jLabel42, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(KueKoreanCake16Layout.createSequentialGroup()
-                        .addComponent(jLabel43)
-                        .addGap(59, 59, 59)
-                        .addComponent(jLabel45)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel46)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(KueKoreanCake16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBox9)
+                            .addComponent(jLabel44)
+                            .addGroup(KueKoreanCake16Layout.createSequentialGroup()
+                                .addComponent(jLabel43)
+                                .addGap(59, 59, 59)
+                                .addComponent(jLabel45)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel46)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         KueKoreanCake16Layout.setVerticalGroup(
             KueKoreanCake16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(KueKoreanCake16Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jRadioButton9)
+                .addComponent(jCheckBox9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel42)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -751,10 +907,6 @@ public class DashboardOrder extends javax.swing.JFrame {
 
         jLabel47.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/KUE/CHARACTER CAKE/Character Cake - 15 CM.png"))); // NOI18N
 
-        jRadioButton10.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jRadioButton10.setText("Kue Character Cake | 15 cm");
-        jRadioButton10.setToolTipText("");
-
         jLabel48.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel48.setText("Harga :");
 
@@ -767,6 +919,14 @@ public class DashboardOrder extends javax.swing.JFrame {
         jLabel51.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel51.setText("15 cm");
 
+        jCheckBox10.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jCheckBox10.setText("Kue Character Cake | 15 cm");
+        jCheckBox10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox10ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout KueCharacterCake15Layout = new javax.swing.GroupLayout(KueCharacterCake15);
         KueCharacterCake15.setLayout(KueCharacterCake15Layout);
         KueCharacterCake15Layout.setHorizontalGroup(
@@ -774,9 +934,6 @@ public class DashboardOrder extends javax.swing.JFrame {
             .addGroup(KueCharacterCake15Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(KueCharacterCake15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, KueCharacterCake15Layout.createSequentialGroup()
-                        .addComponent(jRadioButton10)
-                        .addGap(105, 105, 105))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, KueCharacterCake15Layout.createSequentialGroup()
                         .addComponent(jLabel50)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -786,15 +943,16 @@ public class DashboardOrder extends javax.swing.JFrame {
                         .addGroup(KueCharacterCake15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel49)
                             .addComponent(jLabel48)
-                            .addComponent(jLabel47))
+                            .addComponent(jLabel47)
+                            .addComponent(jCheckBox10))
                         .addContainerGap())))
         );
         KueCharacterCake15Layout.setVerticalGroup(
             KueCharacterCake15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(KueCharacterCake15Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jRadioButton10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBox10)
+                .addGap(7, 7, 7)
                 .addComponent(jLabel47)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(KueCharacterCake15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -810,10 +968,6 @@ public class DashboardOrder extends javax.swing.JFrame {
 
         jLabel52.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/KUE/CHARACTER CAKE/Character Cake - 16 CM.png"))); // NOI18N
 
-        jRadioButton11.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jRadioButton11.setText("Kue Character Cake | 16 cm");
-        jRadioButton11.setToolTipText("");
-
         jLabel53.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel53.setText("Harga :");
 
@@ -826,6 +980,14 @@ public class DashboardOrder extends javax.swing.JFrame {
         jLabel56.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel56.setText("16 cm");
 
+        jCheckBox11.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jCheckBox11.setText("Kue Character Cake | 16 cm");
+        jCheckBox11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox11ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout KueCharacterCake16Layout = new javax.swing.GroupLayout(KueCharacterCake16);
         KueCharacterCake16.setLayout(KueCharacterCake16Layout);
         KueCharacterCake16Layout.setHorizontalGroup(
@@ -833,9 +995,6 @@ public class DashboardOrder extends javax.swing.JFrame {
             .addGroup(KueCharacterCake16Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(KueCharacterCake16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, KueCharacterCake16Layout.createSequentialGroup()
-                        .addComponent(jRadioButton11)
-                        .addGap(105, 105, 105))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, KueCharacterCake16Layout.createSequentialGroup()
                         .addComponent(jLabel55)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -845,14 +1004,15 @@ public class DashboardOrder extends javax.swing.JFrame {
                         .addGroup(KueCharacterCake16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel54)
                             .addComponent(jLabel53)
-                            .addComponent(jLabel52))
+                            .addComponent(jLabel52)
+                            .addComponent(jCheckBox11))
                         .addContainerGap())))
         );
         KueCharacterCake16Layout.setVerticalGroup(
             KueCharacterCake16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(KueCharacterCake16Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jRadioButton11)
+                .addComponent(jCheckBox11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel52)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -869,10 +1029,6 @@ public class DashboardOrder extends javax.swing.JFrame {
 
         jLabel57.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/KUE/CHARACTER CAKE/Character Cake - 20 CM.png"))); // NOI18N
 
-        jRadioButton12.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jRadioButton12.setText("Kue Character Cake | 20 cm");
-        jRadioButton12.setToolTipText("");
-
         jLabel58.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel58.setText("Harga :");
 
@@ -885,6 +1041,14 @@ public class DashboardOrder extends javax.swing.JFrame {
         jLabel61.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel61.setText("20 cm");
 
+        jCheckBox12.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jCheckBox12.setText("Kue Character Cake | 20 cm");
+        jCheckBox12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox12ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout KueCharacterCake20Layout = new javax.swing.GroupLayout(KueCharacterCake20);
         KueCharacterCake20.setLayout(KueCharacterCake20Layout);
         KueCharacterCake20Layout.setHorizontalGroup(
@@ -893,11 +1057,7 @@ public class DashboardOrder extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(KueCharacterCake20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(KueCharacterCake20Layout.createSequentialGroup()
-                        .addComponent(jLabel57)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(KueCharacterCake20Layout.createSequentialGroup()
                         .addGroup(KueCharacterCake20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButton12)
                             .addComponent(jLabel59)
                             .addGroup(KueCharacterCake20Layout.createSequentialGroup()
                                 .addComponent(jLabel58)
@@ -905,13 +1065,18 @@ public class DashboardOrder extends javax.swing.JFrame {
                                 .addComponent(jLabel60)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel61)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(KueCharacterCake20Layout.createSequentialGroup()
+                        .addGroup(KueCharacterCake20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBox12)
+                            .addComponent(jLabel57))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         KueCharacterCake20Layout.setVerticalGroup(
             KueCharacterCake20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(KueCharacterCake20Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jRadioButton12)
+                .addComponent(jCheckBox12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel57)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -928,10 +1093,6 @@ public class DashboardOrder extends javax.swing.JFrame {
 
         jLabel62.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/KUE/CAKE LUKIS/Cake Lukis - 12 CM.png"))); // NOI18N
 
-        jRadioButton13.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jRadioButton13.setText("Kue Cake Lukis | 12 cm");
-        jRadioButton13.setToolTipText("");
-
         jLabel63.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel63.setText("Harga :");
 
@@ -943,6 +1104,14 @@ public class DashboardOrder extends javax.swing.JFrame {
 
         jLabel66.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel66.setText("12 cm");
+
+        jCheckBox13.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jCheckBox13.setText("Kue Cake Lukis | 12 cm");
+        jCheckBox13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox13ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout KueCakeLukis12Layout = new javax.swing.GroupLayout(KueCakeLukis12);
         KueCakeLukis12.setLayout(KueCakeLukis12Layout);
@@ -963,7 +1132,7 @@ public class DashboardOrder extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(KueCakeLukis12Layout.createSequentialGroup()
                         .addGroup(KueCakeLukis12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButton13)
+                            .addComponent(jCheckBox13)
                             .addComponent(jLabel62))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
@@ -971,7 +1140,7 @@ public class DashboardOrder extends javax.swing.JFrame {
             KueCakeLukis12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(KueCakeLukis12Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jRadioButton13)
+                .addComponent(jCheckBox13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel62)
                 .addGap(11, 11, 11)
@@ -988,10 +1157,6 @@ public class DashboardOrder extends javax.swing.JFrame {
 
         jLabel67.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/KUE/CAKE LUKIS/Cake Lukis - 13 CM.png"))); // NOI18N
 
-        jRadioButton14.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jRadioButton14.setText("Kue Cake Lukis | 13 cm");
-        jRadioButton14.setToolTipText("");
-
         jLabel68.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel68.setText("Harga :");
 
@@ -1004,6 +1169,14 @@ public class DashboardOrder extends javax.swing.JFrame {
         jLabel71.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel71.setText("13 cm");
 
+        jCheckBox14.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jCheckBox14.setText("Kue Cake Lukis | 13 cm");
+        jCheckBox14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox14ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout KueCakeLukis13Layout = new javax.swing.GroupLayout(KueCakeLukis13);
         KueCakeLukis13.setLayout(KueCakeLukis13Layout);
         KueCakeLukis13Layout.setHorizontalGroup(
@@ -1011,30 +1184,27 @@ public class DashboardOrder extends javax.swing.JFrame {
             .addGroup(KueCakeLukis13Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(KueCakeLukis13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel69)
                     .addGroup(KueCakeLukis13Layout.createSequentialGroup()
-                        .addComponent(jRadioButton14)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(KueCakeLukis13Layout.createSequentialGroup()
-                        .addGroup(KueCakeLukis13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel69)
-                            .addGroup(KueCakeLukis13Layout.createSequentialGroup()
-                                .addComponent(jLabel68)
-                                .addGap(58, 58, 58)
-                                .addComponent(jLabel70)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel71)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jLabel68)
+                        .addGap(58, 58, 58)
+                        .addComponent(jLabel70)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel71)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, KueCakeLukis13Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel67)
+                .addGroup(KueCakeLukis13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBox14)
+                    .addComponent(jLabel67))
                 .addContainerGap())
         );
         KueCakeLukis13Layout.setVerticalGroup(
             KueCakeLukis13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(KueCakeLukis13Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jRadioButton14)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBox14)
+                .addGap(7, 7, 7)
                 .addComponent(jLabel67)
                 .addGap(11, 11, 11)
                 .addGroup(KueCakeLukis13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1055,11 +1225,11 @@ public class DashboardOrder extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(KueCakeLukis12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(KueSiramCoklat12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(KueKoreanCake16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(KueSiramCoklat15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(KueSiramCoklat20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(KueKoreanCake13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(KueCharacterCake16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(KueCharacterCake16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(KueKoreanCake16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(69, 69, 69)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(KueCharacterCake15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1069,16 +1239,16 @@ public class DashboardOrder extends javax.swing.JFrame {
                     .addComponent(KueKoreanCake15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(KueCharacterCake20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(KueCakeLukis13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(KueSiramCoklat12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(KueSiramCoklat13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(41, 41, 41)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(KueSiramCoklat12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(KueSiramCoklat13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(49, 49, 49)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(KueSiramCoklat15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(KueSiramCoklat16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1102,7 +1272,7 @@ public class DashboardOrder extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(KueCakeLukis13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(KueCakeLukis12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel4);
@@ -1111,11 +1281,11 @@ public class DashboardOrder extends javax.swing.JFrame {
         KueTart.setLayout(KueTartLayout);
         KueTartLayout.setHorizontalGroup(
             KueTartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 820, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         KueTartLayout.setVerticalGroup(
             KueTartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
         );
 
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -1124,14 +1294,19 @@ public class DashboardOrder extends javax.swing.JFrame {
 
         jLabel72.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/KUE/KUE SIRAM COKLAT/KUE SR 12CM.png"))); // NOI18N
 
-        jRadioButton15.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jRadioButton15.setText("Kue Cup Cake");
-
         jLabel73.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel73.setText("Harga :");
 
         jLabel74.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel74.setText("Rp. 50.000");
+
+        jCheckBox15.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jCheckBox15.setText("Kue Cup Cake");
+        jCheckBox15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox15ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout KueSiramCoklat14Layout = new javax.swing.GroupLayout(KueSiramCoklat14);
         KueSiramCoklat14.setLayout(KueSiramCoklat14Layout);
@@ -1144,19 +1319,19 @@ public class DashboardOrder extends javax.swing.JFrame {
                         .addGroup(KueSiramCoklat14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel74)
                             .addComponent(jLabel73))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(26, 241, Short.MAX_VALUE))
                     .addGroup(KueSiramCoklat14Layout.createSequentialGroup()
                         .addGroup(KueSiramCoklat14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButton15)
+                            .addComponent(jCheckBox15)
                             .addComponent(jLabel72))
-                        .addGap(0, 10, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         KueSiramCoklat14Layout.setVerticalGroup(
             KueSiramCoklat14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(KueSiramCoklat14Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jRadioButton15)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBox15)
+                .addGap(7, 7, 7)
                 .addComponent(jLabel72)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel73)
@@ -1172,14 +1347,14 @@ public class DashboardOrder extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(45, 45, 45)
                 .addComponent(KueSiramCoklat14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(497, Short.MAX_VALUE))
+                .addContainerGap(518, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addComponent(KueSiramCoklat14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(KueSiramCoklat14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         jScrollPane2.setViewportView(jPanel5);
@@ -1188,11 +1363,11 @@ public class DashboardOrder extends javax.swing.JFrame {
         KueCupCake.setLayout(KueCupCakeLayout);
         KueCupCakeLayout.setHorizontalGroup(
             KueCupCakeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 820, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
         );
         KueCupCakeLayout.setVerticalGroup(
             KueCupCakeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+            .addComponent(jScrollPane2)
         );
 
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -1200,9 +1375,6 @@ public class DashboardOrder extends javax.swing.JFrame {
         KueBrowniesAlmonds.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel75.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/BROWNIES/Brownies Almonds.png"))); // NOI18N
-
-        jRadioButton16.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jRadioButton16.setText("Kue Brownies Almonds");
 
         jLabel76.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel76.setText("Harga :");
@@ -1216,6 +1388,14 @@ public class DashboardOrder extends javax.swing.JFrame {
         jLabel79.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel79.setText("20 x 10 cm");
 
+        jCheckBox16.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jCheckBox16.setText("Kue Brownies Almonds");
+        jCheckBox16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox16ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout KueBrowniesAlmondsLayout = new javax.swing.GroupLayout(KueBrowniesAlmonds);
         KueBrowniesAlmonds.setLayout(KueBrowniesAlmondsLayout);
         KueBrowniesAlmondsLayout.setHorizontalGroup(
@@ -1223,27 +1403,23 @@ public class DashboardOrder extends javax.swing.JFrame {
             .addGroup(KueBrowniesAlmondsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(KueBrowniesAlmondsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, KueBrowniesAlmondsLayout.createSequentialGroup()
-                        .addGroup(KueBrowniesAlmondsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel77)
-                            .addGroup(KueBrowniesAlmondsLayout.createSequentialGroup()
-                                .addComponent(jLabel76)
-                                .addGap(50, 50, 50)
-                                .addComponent(jLabel78)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel79)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(KueBrowniesAlmondsLayout.createSequentialGroup()
                         .addGroup(KueBrowniesAlmondsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButton16)
-                            .addComponent(jLabel75))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addComponent(jLabel76)
+                            .addComponent(jLabel77))
+                        .addGap(31, 31, 31)
+                        .addComponent(jLabel78)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel79))
+                    .addComponent(jCheckBox16)
+                    .addComponent(jLabel75))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         KueBrowniesAlmondsLayout.setVerticalGroup(
             KueBrowniesAlmondsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(KueBrowniesAlmondsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jRadioButton16)
+                .addComponent(jCheckBox16)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel75)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1253,15 +1429,12 @@ public class DashboardOrder extends javax.swing.JFrame {
                     .addComponent(jLabel79))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel77)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         KueBrowniesChocochips.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel80.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/BROWNIES/Brownies Chocochips.png"))); // NOI18N
-
-        jRadioButton17.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jRadioButton17.setText("Kue Brownies Chocochips");
 
         jLabel81.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel81.setText("Harga :");
@@ -1275,6 +1448,14 @@ public class DashboardOrder extends javax.swing.JFrame {
         jLabel84.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel84.setText("20 x 10 cm");
 
+        jCheckBox17.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jCheckBox17.setText("Kue Brownies Chocochips");
+        jCheckBox17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox17ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout KueBrowniesChocochipsLayout = new javax.swing.GroupLayout(KueBrowniesChocochips);
         KueBrowniesChocochips.setLayout(KueBrowniesChocochipsLayout);
         KueBrowniesChocochipsLayout.setHorizontalGroup(
@@ -1282,26 +1463,22 @@ public class DashboardOrder extends javax.swing.JFrame {
             .addGroup(KueBrowniesChocochipsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(KueBrowniesChocochipsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBox17)
+                    .addComponent(jLabel80)
+                    .addComponent(jLabel82)
                     .addGroup(KueBrowniesChocochipsLayout.createSequentialGroup()
-                        .addComponent(jRadioButton17)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(KueBrowniesChocochipsLayout.createSequentialGroup()
-                        .addGroup(KueBrowniesChocochipsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel80)
-                            .addComponent(jLabel82)
-                            .addGroup(KueBrowniesChocochipsLayout.createSequentialGroup()
-                                .addComponent(jLabel81)
-                                .addGap(59, 59, 59)
-                                .addComponent(jLabel83)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel84)))
-                        .addGap(0, 10, Short.MAX_VALUE))))
+                        .addComponent(jLabel81)
+                        .addGap(59, 59, 59)
+                        .addComponent(jLabel83)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel84)))
+                .addGap(0, 10, Short.MAX_VALUE))
         );
         KueBrowniesChocochipsLayout.setVerticalGroup(
             KueBrowniesChocochipsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(KueBrowniesChocochipsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jRadioButton17)
+                .addComponent(jCheckBox17)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel80)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1311,15 +1488,12 @@ public class DashboardOrder extends javax.swing.JFrame {
                     .addComponent(jLabel84))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel82)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         KueBrowniesOreo.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel85.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/BROWNIES/Brownies Oreo.png"))); // NOI18N
-
-        jRadioButton18.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jRadioButton18.setText("Kue Brownies Oreo");
 
         jLabel86.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel86.setText("Harga :");
@@ -1333,6 +1507,14 @@ public class DashboardOrder extends javax.swing.JFrame {
         jLabel89.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel89.setText("20 x 10 cm");
 
+        jCheckBox18.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jCheckBox18.setText("Kue Brownies Oreo");
+        jCheckBox18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox18ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout KueBrowniesOreoLayout = new javax.swing.GroupLayout(KueBrowniesOreo);
         KueBrowniesOreo.setLayout(KueBrowniesOreoLayout);
         KueBrowniesOreoLayout.setHorizontalGroup(
@@ -1340,6 +1522,7 @@ public class DashboardOrder extends javax.swing.JFrame {
             .addGroup(KueBrowniesOreoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(KueBrowniesOreoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBox18)
                     .addComponent(jLabel87)
                     .addGroup(KueBrowniesOreoLayout.createSequentialGroup()
                         .addComponent(jLabel86)
@@ -1347,7 +1530,6 @@ public class DashboardOrder extends javax.swing.JFrame {
                         .addComponent(jLabel88)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel89))
-                    .addComponent(jRadioButton18)
                     .addComponent(jLabel85))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -1355,7 +1537,7 @@ public class DashboardOrder extends javax.swing.JFrame {
             KueBrowniesOreoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(KueBrowniesOreoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jRadioButton18)
+                .addComponent(jCheckBox18)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel85)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1372,9 +1554,6 @@ public class DashboardOrder extends javax.swing.JFrame {
 
         jLabel90.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/BROWNIES/Brownies Mix.png"))); // NOI18N
 
-        jRadioButton19.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jRadioButton19.setText("Kue Brownies Mix");
-
         jLabel91.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel91.setText("Harga :");
 
@@ -1387,6 +1566,14 @@ public class DashboardOrder extends javax.swing.JFrame {
         jLabel94.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel94.setText("20 x 10 cm");
 
+        jCheckBox19.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jCheckBox19.setText("Kue Brownies Mix");
+        jCheckBox19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox19ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout KueBrowniesMixLayout = new javax.swing.GroupLayout(KueBrowniesMix);
         KueBrowniesMix.setLayout(KueBrowniesMixLayout);
         KueBrowniesMixLayout.setHorizontalGroup(
@@ -1395,26 +1582,25 @@ public class DashboardOrder extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(KueBrowniesMixLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(KueBrowniesMixLayout.createSequentialGroup()
-                        .addComponent(jLabel90)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(KueBrowniesMixLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel92)
+                            .addComponent(jLabel91))
+                        .addGap(32, 32, 32)
+                        .addComponent(jLabel93)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel94)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(KueBrowniesMixLayout.createSequentialGroup()
                         .addGroup(KueBrowniesMixLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButton19)
-                            .addGroup(KueBrowniesMixLayout.createSequentialGroup()
-                                .addGroup(KueBrowniesMixLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel92)
-                                    .addComponent(jLabel91))
-                                .addGap(32, 32, 32)
-                                .addComponent(jLabel93)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel94)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jCheckBox19)
+                            .addComponent(jLabel90))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         KueBrowniesMixLayout.setVerticalGroup(
             KueBrowniesMixLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(KueBrowniesMixLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jRadioButton19)
+                .addComponent(jCheckBox19)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel90)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1440,7 +1626,7 @@ public class DashboardOrder extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(KueBrowniesChocochips, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(KueBrowniesMix, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1453,7 +1639,7 @@ public class DashboardOrder extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(KueBrowniesOreo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(KueBrowniesMix, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         jScrollPane3.setViewportView(jPanel6);
@@ -1462,33 +1648,41 @@ public class DashboardOrder extends javax.swing.JFrame {
         KueBrownies.setLayout(KueBrowniesLayout);
         KueBrowniesLayout.setHorizontalGroup(
             KueBrowniesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 820, Short.MAX_VALUE)
+            .addGroup(KueBrowniesLayout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         KueBrowniesLayout.setVerticalGroup(
             KueBrowniesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
         );
 
         jScrollPane4.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane4.setPreferredSize(new java.awt.Dimension(830, 473));
 
         KuePudding15.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel95.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/PUDING/Puding Coklat - 15 CM.png"))); // NOI18N
 
-        jRadioButton20.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jRadioButton20.setText("Kue Pudding | 15 cm");
-
         jLabel96.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel96.setText("Harga :");
 
         jLabel97.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jLabel97.setText("Rp. 40.000");
+        jLabel97.setText("Rp. 60.000");
 
         jLabel98.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel98.setText("Diameter :");
 
         jLabel99.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel99.setText("15 cm");
+        jLabel99.setText("16 cm");
+
+        jCheckBox20.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jCheckBox20.setText("Kue Pudding | 16 cm");
+        jCheckBox20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox20ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout KuePudding15Layout = new javax.swing.GroupLayout(KuePudding15);
         KuePudding15.setLayout(KuePudding15Layout);
@@ -1497,28 +1691,28 @@ public class DashboardOrder extends javax.swing.JFrame {
             .addGroup(KuePudding15Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(KuePudding15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, KuePudding15Layout.createSequentialGroup()
+                    .addGroup(KuePudding15Layout.createSequentialGroup()
                         .addGroup(KuePudding15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel97)
+                            .addComponent(jCheckBox20)
+                            .addComponent(jLabel95))
+                        .addGap(0, 10, Short.MAX_VALUE))
+                    .addGroup(KuePudding15Layout.createSequentialGroup()
+                        .addGroup(KuePudding15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(KuePudding15Layout.createSequentialGroup()
                                 .addComponent(jLabel96)
                                 .addGap(50, 50, 50)
                                 .addComponent(jLabel98)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel99)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(KuePudding15Layout.createSequentialGroup()
-                        .addGroup(KuePudding15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButton20)
-                            .addComponent(jLabel95))
-                        .addGap(0, 10, Short.MAX_VALUE))))
+                                .addComponent(jLabel99))
+                            .addComponent(jLabel97))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         KuePudding15Layout.setVerticalGroup(
             KuePudding15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(KuePudding15Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jRadioButton20)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBox20)
+                .addGap(7, 7, 7)
                 .addComponent(jLabel95)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(KuePudding15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1527,27 +1721,32 @@ public class DashboardOrder extends javax.swing.JFrame {
                     .addComponent(jLabel99))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel97)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         KuePudding16.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel100.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/PUDING/Puding Coklat - 16 CM.png"))); // NOI18N
 
-        jRadioButton21.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jRadioButton21.setText("Kue Pudding | 16 cm");
-
         jLabel101.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel101.setText("Harga :");
 
         jLabel102.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jLabel102.setText("Rp. 40.000");
+        jLabel102.setText("Rp. 180.000");
 
         jLabel103.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel103.setText("Diameter :");
 
         jLabel104.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel104.setText("16 cm");
+        jLabel104.setText("20 cm");
+
+        jCheckBox21.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jCheckBox21.setText("Kue Pudding | 20 cm");
+        jCheckBox21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox21ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout KuePudding16Layout = new javax.swing.GroupLayout(KuePudding16);
         KuePudding16.setLayout(KuePudding16Layout);
@@ -1556,27 +1755,23 @@ public class DashboardOrder extends javax.swing.JFrame {
             .addGroup(KuePudding16Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(KuePudding16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBox21)
+                    .addComponent(jLabel100)
+                    .addComponent(jLabel102)
                     .addGroup(KuePudding16Layout.createSequentialGroup()
-                        .addComponent(jRadioButton21)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(KuePudding16Layout.createSequentialGroup()
-                        .addGroup(KuePudding16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel100)
-                            .addComponent(jLabel102)
-                            .addGroup(KuePudding16Layout.createSequentialGroup()
-                                .addComponent(jLabel101)
-                                .addGap(59, 59, 59)
-                                .addComponent(jLabel103)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel104)))
-                        .addGap(0, 10, Short.MAX_VALUE))))
+                        .addComponent(jLabel101)
+                        .addGap(59, 59, 59)
+                        .addComponent(jLabel103)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel104)))
+                .addGap(0, 10, Short.MAX_VALUE))
         );
         KuePudding16Layout.setVerticalGroup(
             KuePudding16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(KuePudding16Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jRadioButton21)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBox21)
+                .addGap(7, 7, 7)
                 .addComponent(jLabel100)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(KuePudding16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1585,7 +1780,7 @@ public class DashboardOrder extends javax.swing.JFrame {
                     .addComponent(jLabel104))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel102)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -1593,11 +1788,11 @@ public class DashboardOrder extends javax.swing.JFrame {
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(45, 45, 45)
+                .addGap(44, 44, 44)
                 .addComponent(KuePudding15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(69, 69, 69)
+                .addGap(61, 61, 61)
                 .addComponent(KuePudding16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1606,7 +1801,7 @@ public class DashboardOrder extends javax.swing.JFrame {
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(KuePudding15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(KuePudding16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(463, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         jScrollPane4.setViewportView(jPanel7);
@@ -1615,56 +1810,46 @@ public class DashboardOrder extends javax.swing.JFrame {
         KuePudding.setLayout(KuePuddingLayout);
         KuePuddingLayout.setHorizontalGroup(
             KuePuddingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 820, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         KuePuddingLayout.setVerticalGroup(
             KuePuddingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(KueTart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(KueTart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(KueCupCake, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
+                    .addComponent(KueCupCake, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(KueBrownies, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
+                    .addComponent(KueBrownies, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(20, 20, 20)
-                    .addComponent(KuePudding, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
+                    .addComponent(KuePudding, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(KueTart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(KueCupCake, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
+                .addComponent(KueCupCake, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(KueBrownies, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
+                .addComponent(KueBrownies, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(21, 21, 21)
-                    .addComponent(KuePudding, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGap(1, 1, 1)))
+                .addComponent(KuePudding, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel2);
-        jPanel2.setBounds(250, 260, 820, 450);
+        jPanel2.setBounds(265, 260, 800, 462);
 
         tNamaPemesan.setBackground(new java.awt.Color(248, 248, 245));
         tNamaPemesan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -1684,6 +1869,11 @@ public class DashboardOrder extends javax.swing.JFrame {
         tNoHP.setBounds(373, 150, 140, 27);
 
         btnCustomCake.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCustomCake.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCustomCakeMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout btnCustomCakeLayout = new javax.swing.GroupLayout(btnCustomCake);
         btnCustomCake.setLayout(btnCustomCakeLayout);
@@ -1783,28 +1973,12 @@ public class DashboardOrder extends javax.swing.JFrame {
         jPanel1.add(btnTart);
         btnTart.setBounds(24, 101, 163, 32);
 
-        btnKeranjang.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        javax.swing.GroupLayout btnKeranjangLayout = new javax.swing.GroupLayout(btnKeranjang);
-        btnKeranjang.setLayout(btnKeranjangLayout);
-        btnKeranjangLayout.setHorizontalGroup(
-            btnKeranjangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 168, Short.MAX_VALUE)
-        );
-        btnKeranjangLayout.setVerticalGroup(
-            btnKeranjangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 32, Short.MAX_VALUE)
-        );
-
-        jPanel1.add(btnKeranjang);
-        btnKeranjang.setBounds(370, 192, 168, 32);
-
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Halaman Order.png"))); // NOI18N
         jPanel1.add(jLabel1);
         jLabel1.setBounds(0, 0, 1100, 733);
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 0, 0);
+        jPanel1.setBounds(0, 0, 1100, 733);
 
         setSize(new java.awt.Dimension(1100, 733));
         setLocationRelativeTo(null);
@@ -1820,19 +1994,343 @@ public class DashboardOrder extends javax.swing.JFrame {
 
     private void btnTartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTartMouseClicked
         // TODO add your handling code here:
+        KueTart.setVisible(true);
+        KueCupCake.setVisible(false);
+        KueBrownies.setVisible(false);
+        KuePudding.setVisible(false);
     }//GEN-LAST:event_btnTartMouseClicked
 
     private void btnBrowniesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBrowniesMouseClicked
         // TODO add your handling code here:
+        KueTart.setVisible(false);
+        KueCupCake.setVisible(false);
+        KueBrownies.setVisible(true);
+        KuePudding.setVisible(false);
     }//GEN-LAST:event_btnBrowniesMouseClicked
 
     private void btnCupCakeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCupCakeMouseClicked
         // TODO add your handling code here:
+        KueTart.setVisible(false);
+        KueCupCake.setVisible(true);
+        KueBrownies.setVisible(false);
+        KuePudding.setVisible(false);
     }//GEN-LAST:event_btnCupCakeMouseClicked
 
     private void btnPudingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPudingMouseClicked
         // TODO add your handling code here:
+        KueTart.setVisible(false);
+        KueCupCake.setVisible(false);
+        KueBrownies.setVisible(false);
+        KuePudding.setVisible(true);
     }//GEN-LAST:event_btnPudingMouseClicked
+
+    private void btnLihatKeranjangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLihatKeranjangMouseClicked
+        // TODO add your handling code here:
+        this.setVisible(false);
+    }//GEN-LAST:event_btnLihatKeranjangMouseClicked
+ 
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBox1.isSelected() == true) {
+            tTart.setText("P001");
+            kue.add("P11001");
+        } else {
+            tTart.setText("");
+            kue.remove("P11001");
+        }
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
+
+    private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBox2.isSelected() == true) {
+            tTart.setText("P001");
+            kue.add("P11002");
+        } else {
+            tTart.setText("");
+            kue.remove("");
+        }
+    }//GEN-LAST:event_jCheckBox2ActionPerformed
+
+    private void jCheckBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox3ActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBox3.isSelected() == true) {
+            tTart.setText("P001");
+            kue.add("P11003");
+        } else {
+            tTart.setText("");
+            kue.remove("");
+        }
+    }//GEN-LAST:event_jCheckBox3ActionPerformed
+
+    private void jCheckBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox4ActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBox4.isSelected() == true) {
+            tTart.setText("P001");
+            kue.add("P11004");
+        } else {
+            tTart.setText("");
+            kue.remove("");
+        }
+    }//GEN-LAST:event_jCheckBox4ActionPerformed
+
+    private void jCheckBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox5ActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBox5.isSelected() == true) {
+            tTart.setText("P001");
+            kue.add("P11005");
+        } else {
+            tTart.setText("");
+            kue.remove("");
+        }
+    }//GEN-LAST:event_jCheckBox5ActionPerformed
+
+    private void jCheckBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox6ActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBox6.isSelected() == true) {
+            tTart.setText("P001");
+            kue.add("P12001");
+        } else {
+            tTart.setText("");
+            kue.remove("");
+        }
+    }//GEN-LAST:event_jCheckBox6ActionPerformed
+
+    private void jCheckBox7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox7ActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBox7.isSelected() == true) {
+            tTart.setText("P001");
+            kue.add("P12002");
+        } else {
+            tTart.setText("");
+            kue.remove("");
+        }
+    }//GEN-LAST:event_jCheckBox7ActionPerformed
+
+    private void jCheckBox8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox8ActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBox8.isSelected() == true) {
+            tTart.setText("P001");
+            kue.add("P12003");
+        } else {
+            tTart.setText("");
+            kue.remove("");
+        }
+    }//GEN-LAST:event_jCheckBox8ActionPerformed
+
+    private void jCheckBox9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox9ActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBox9.isSelected() == true) {
+            tTart.setText("P001");
+            kue.add("P12004");
+        } else {
+            tTart.setText("");
+            kue.remove("");
+        }
+    }//GEN-LAST:event_jCheckBox9ActionPerformed
+
+    private void jCheckBox10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox10ActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBox10.isSelected() == true) {
+            tTart.setText("P001");
+            kue.add("P13002");
+        } else {
+            tTart.setText("");
+            kue.remove("");
+        }
+    }//GEN-LAST:event_jCheckBox10ActionPerformed
+
+    private void jCheckBox11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox11ActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBox11.isSelected() == true) {
+            tTart.setText("P001");
+            kue.add("P13003");
+        } else {
+            tTart.setText("");
+            kue.remove("");
+        }
+    }//GEN-LAST:event_jCheckBox11ActionPerformed
+
+    private void jCheckBox12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox12ActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBox12.isSelected() == true) {
+            tTart.setText("P001");
+            kue.add("P13004");
+        } else {
+            tTart.setText("");
+            kue.remove("");
+        }
+    }//GEN-LAST:event_jCheckBox12ActionPerformed
+
+    private void jCheckBox13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox13ActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBox13.isSelected() == true) {
+            tTart.setText("P001");
+            kue.add("P14001");
+        } else {
+            tTart.setText("");
+            kue.remove("");
+        }
+    }//GEN-LAST:event_jCheckBox13ActionPerformed
+
+    private void jCheckBox14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox14ActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBox14.isSelected() == true) {
+            tTart.setText("P001");
+            kue.add("P14002");
+        } else {
+            tTart.setText("");
+            kue.remove("");
+        }
+    }//GEN-LAST:event_jCheckBox14ActionPerformed
+
+    private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
+        // TODO add your handling code here:
+        if (tNamaPemesan.getText().isEmpty() || tNoHP.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(rootPane, "Mohon Isi Data Diri Pemesan");
+        } else {
+            try {
+                String sql1 = "INSERT INTO orders (nama_pemesan, no_hp) VALUES ('"+ tNamaPemesan.getText() +"', '"+ tNoHP.getText() +"')";
+                Statement stat1 = Koneksi.GetConnection().createStatement();
+                stat1.execute(sql1);
+                
+                String sql2 = "SELECT MAX(ID_orders) FROM orders";
+                Statement stat2 = Koneksi.GetConnection().createStatement();
+                ResultSet res = stat2.executeQuery(sql2);
+                if (res.next()) {
+                   tIdOrder.setText(res.getString("MAX(ID_orders)"));
+                } else {
+                   JOptionPane.showMessageDialog(rootPane, "ID Order Gagal Di Ambil");
+                }
+                        
+                String sql3 = "INSERT INTO transaksi (tgl_pesan, ID_orders) VALUES (now(), '"+ tIdOrder.getText() +"')";
+                Statement stat3 = Koneksi.GetConnection().createStatement();
+                stat3.execute(sql3);
+                
+                JOptionPane.showMessageDialog(rootPane, "Data Pemesan Berhasil Di Simpan");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(rootPane, "Data Pemesan Gagal Di Simpan");
+                System.out.println(ex);
+            }
+        }
+    }//GEN-LAST:event_btnSimpanActionPerformed
+
+    private void btnKeranjangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKeranjangActionPerformed
+        // TODO add your handling code here:
+        try {           
+            for (int i = 0; i < kue.size(); i++) {
+                String idKue = kue.get(i).toString();
+
+                String sql = "SELECT kode_produk, nama_produk, ukuran, harga FROM detail_produk WHERE kode_sub_produk = '"+ idKue +"'";
+                Statement stat = Koneksi.GetConnection().createStatement();
+                ResultSet res = stat.executeQuery(sql);
+                while(res.next()) {  
+                    KeranjangOrder.addDataTabel(new Object[] {
+                        res.getString("kode_produk"),
+                        res.getString("nama_produk"),
+                        res.getString("ukuran"),
+                        1,
+                        res.getString("harga"),
+                    });
+                }
+            }
+            
+            JOptionPane.showMessageDialog(rootPane, "Berhasil Masuk Keranjang");
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }//GEN-LAST:event_btnKeranjangActionPerformed
+
+    private void jCheckBox15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox15ActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBox15.isSelected() == true) {
+            tCupCake.setText("P003");
+            kue.add("P31001");
+        } else {
+            tCupCake.setText("");
+            kue.remove("");
+        }
+    }//GEN-LAST:event_jCheckBox15ActionPerformed
+
+    private void jCheckBox16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox16ActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBox16.isSelected() == true) {
+            tBrownies.setText("P002");
+            kue.add("P21002");
+        } else {
+            tBrownies.setText("");
+            kue.remove("");
+        }
+    }//GEN-LAST:event_jCheckBox16ActionPerformed
+
+    private void jCheckBox17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox17ActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBox17.isSelected() == true) {
+            tBrownies.setText("P002");
+            kue.add("P21003");
+        } else {
+            tBrownies.setText("");
+            kue.remove("");
+        }
+    }//GEN-LAST:event_jCheckBox17ActionPerformed
+
+    private void jCheckBox18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox18ActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBox18.isSelected() == true) {
+            tBrownies.setText("P002");
+            kue.add("P21001");
+        } else {
+            tBrownies.setText("");
+            kue.remove("");
+        }
+    }//GEN-LAST:event_jCheckBox18ActionPerformed
+
+    private void jCheckBox19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox19ActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBox19.isSelected() == true) {
+            tBrownies.setText("P002");
+            kue.add("P21004");
+        } else {
+            tBrownies.setText("");
+            kue.remove("");
+        }
+    }//GEN-LAST:event_jCheckBox19ActionPerformed
+
+    private void jCheckBox20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox20ActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBox20.isSelected() == true) {
+            tPudding.setText("P004");
+            kue.add("P44002");
+        } else {
+            tPudding.setText("");
+            kue.remove("");
+        }
+    }//GEN-LAST:event_jCheckBox20ActionPerformed
+
+    private void jCheckBox21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox21ActionPerformed
+        // TODO add your handling code here:
+        if (jCheckBox21.isSelected() == true) {
+            tPudding.setText("P004");
+            kue.add("P44003");
+        } else {
+            tPudding.setText("");
+            kue.remove("");
+        }
+    }//GEN-LAST:event_jCheckBox21ActionPerformed
+
+    private void btnCustomCakeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCustomCakeMouseClicked
+        // TODO add your handling code here:
+        CustomCake cstCake = new CustomCake();
+        cstCake.setVisible(true);
+    }//GEN-LAST:event_btnCustomCakeMouseClicked
+
+    private void btnLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseClicked
+        // TODO add your handling code here:
+        Login_Screen login = new Login_Screen();
+        login.setVisible(true); 
+
+        this.dispose();
+        
+    }//GEN-LAST:event_btnLoginMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1898,9 +2396,33 @@ public class DashboardOrder extends javax.swing.JFrame {
     private javax.swing.JPanel btnBrownies;
     private javax.swing.JPanel btnCupCake;
     private javax.swing.JPanel btnCustomCake;
-    private javax.swing.JPanel btnKeranjang;
+    private javax.swing.JButton btnKeranjang;
+    private javax.swing.JPanel btnLihatKeranjang;
+    private javax.swing.JPanel btnLogin;
     private javax.swing.JPanel btnPuding;
+    private javax.swing.JButton btnSimpan;
     private javax.swing.JPanel btnTart;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox10;
+    private javax.swing.JCheckBox jCheckBox11;
+    private javax.swing.JCheckBox jCheckBox12;
+    private javax.swing.JCheckBox jCheckBox13;
+    private javax.swing.JCheckBox jCheckBox14;
+    private javax.swing.JCheckBox jCheckBox15;
+    private javax.swing.JCheckBox jCheckBox16;
+    private javax.swing.JCheckBox jCheckBox17;
+    private javax.swing.JCheckBox jCheckBox18;
+    private javax.swing.JCheckBox jCheckBox19;
+    private javax.swing.JCheckBox jCheckBox2;
+    private javax.swing.JCheckBox jCheckBox20;
+    private javax.swing.JCheckBox jCheckBox21;
+    private javax.swing.JCheckBox jCheckBox3;
+    private javax.swing.JCheckBox jCheckBox4;
+    private javax.swing.JCheckBox jCheckBox5;
+    private javax.swing.JCheckBox jCheckBox6;
+    private javax.swing.JCheckBox jCheckBox7;
+    private javax.swing.JCheckBox jCheckBox8;
+    private javax.swing.JCheckBox jCheckBox9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel100;
@@ -2011,32 +2533,17 @@ public class DashboardOrder extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton10;
-    private javax.swing.JRadioButton jRadioButton11;
-    private javax.swing.JRadioButton jRadioButton12;
-    private javax.swing.JRadioButton jRadioButton13;
-    private javax.swing.JRadioButton jRadioButton14;
-    private javax.swing.JRadioButton jRadioButton15;
-    private javax.swing.JRadioButton jRadioButton16;
-    private javax.swing.JRadioButton jRadioButton17;
-    private javax.swing.JRadioButton jRadioButton18;
-    private javax.swing.JRadioButton jRadioButton19;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton20;
-    private javax.swing.JRadioButton jRadioButton21;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
-    private javax.swing.JRadioButton jRadioButton5;
-    private javax.swing.JRadioButton jRadioButton6;
-    private javax.swing.JRadioButton jRadioButton7;
-    private javax.swing.JRadioButton jRadioButton8;
-    private javax.swing.JRadioButton jRadioButton9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JLabel tBrownies;
+    private javax.swing.JLabel tCupCake;
+    private javax.swing.JLabel tIdKue;
+    private javax.swing.JLabel tIdOrder;
     private javax.swing.JTextField tNamaPemesan;
     private javax.swing.JTextField tNoHP;
+    private javax.swing.JLabel tPudding;
+    private javax.swing.JLabel tTart;
     // End of variables declaration//GEN-END:variables
 }

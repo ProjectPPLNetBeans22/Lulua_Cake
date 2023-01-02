@@ -110,26 +110,27 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
             }
         };
                 
-        tbl.addColumn("ID Orders");
-        tbl.addColumn("Nama Pemesan");
+        tbl.addColumn("ID Order");
+        tbl.addColumn("Pemesan");
         tbl.addColumn("Jenis Kue");
         tbl.addColumn("Detail Kue");
-        tbl.addColumn("Tanggal Pesan");
-        tbl.addColumn("Tanggal Ambil");
+        tbl.addColumn("Diameter");
+        tbl.addColumn("Tgl Pesan");
+        tbl.addColumn("Tgl Ambil");
         tbl.addColumn("Status");
         tabel.setModel(tbl);
-        tabel.getColumnModel().getColumn(0).setMaxWidth(100);
-        tabel.getColumnModel().getColumn(3).setMinWidth(100);
+        tabel.getColumnModel().getColumn(0).setMaxWidth(60);
+        tabel.getColumnModel().getColumn(3).setMinWidth(135);
 
         try {
-            String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+            String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, detail_produk.ukuran, "
                         + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
                         + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                         + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
                         + "AND orders.ID_orders = transaksi.ID_orders "
                         + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
                         + "AND produk.kode_produk = detail_transaksi.kode_produk "
-                        + "GROUP BY orders.ID_orders";
+                        + "ORDER BY orders.ID_orders ASC";
             Statement stat = Koneksi.GetConnection().createStatement();
             ResultSet res = stat.executeQuery(sql);
             while(res.next()) {
@@ -138,6 +139,7 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                     res.getString("orders.nama_pemesan"),
                     res.getString("produk.nama_produk"),
                     res.getString("detailKue"),
+                    res.getString("detail_produk.ukuran"),
                     res.getString("tanggalPesan"),
                     res.getString("tanggalAmbil"),
                     res.getString("transaksi.status_pesanan"),
@@ -417,26 +419,27 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
             }
         };
                 
-        tbl.addColumn("ID Orders");
-        tbl.addColumn("Nama Pemesan");
+        tbl.addColumn("ID Order");
+        tbl.addColumn("Pemesan");
         tbl.addColumn("Jenis Kue");
         tbl.addColumn("Detail Kue");
-        tbl.addColumn("Tanggal Pesan");
-        tbl.addColumn("Tanggal Ambil");
+        tbl.addColumn("Diameter");
+        tbl.addColumn("Tgl Pesan");
+        tbl.addColumn("Tgl Ambil");
         tbl.addColumn("Status");
         tabel.setModel(tbl);
-        tabel.getColumnModel().getColumn(0).setMaxWidth(100);
-        tabel.getColumnModel().getColumn(3).setMinWidth(100);
+        tabel.getColumnModel().getColumn(0).setMaxWidth(60);
+        tabel.getColumnModel().getColumn(3).setMinWidth(135);
 
         try {
-            String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+            String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, detail_produk.ukuran, "
                         + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
                         + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                         + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
                         + "AND orders.ID_orders = transaksi.ID_orders "
                         + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
                         + "AND produk.kode_produk = detail_transaksi.kode_produk "
-                        + "GROUP BY orders.ID_orders HAVING orders.ID_orders LIKE '%"+ tCari.getText() +"%' OR orders.nama_pemesan LIKE '%"+ tCari.getText() +"%'";
+                        + "HAVING orders.ID_orders LIKE '%"+ tCari.getText() +"%' OR orders.nama_pemesan LIKE '%"+ tCari.getText() +"%' ORDER BY orders.ID_orders ASC";
             Statement stat = Koneksi.GetConnection().createStatement();
             ResultSet res = stat.executeQuery(sql);
             while(res.next()) {
@@ -445,6 +448,7 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                     res.getString("orders.nama_pemesan"),
                     res.getString("produk.nama_produk"),
                     res.getString("detailKue"),
+                    res.getString("detail_produk.ukuran"),
                     res.getString("tanggalPesan"),
                     res.getString("tanggalAmbil"),
                     res.getString("transaksi.status_pesanan"),
@@ -470,26 +474,27 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                 }
             };
                     
-            tbl.addColumn("ID Orders");
-            tbl.addColumn("Nama Pemesan");
+            tbl.addColumn("ID Order");
+            tbl.addColumn("Pemesan");
             tbl.addColumn("Jenis Kue");
             tbl.addColumn("Detail Kue");
-            tbl.addColumn("Tanggal Pesan");
-            tbl.addColumn("Tanggal Ambil");
+            tbl.addColumn("Diameter");
+            tbl.addColumn("Tgl Pesan");
+            tbl.addColumn("Tgl Ambil");
             tbl.addColumn("Status");
             tabel.setModel(tbl);
-            tabel.getColumnModel().getColumn(0).setMaxWidth(100);
-            tabel.getColumnModel().getColumn(3).setMinWidth(100);
+            tabel.getColumnModel().getColumn(0).setMaxWidth(60);
+            tabel.getColumnModel().getColumn(3).setMinWidth(135);
 
             try {
-                String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+                String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, detail_produk.ukuran, "
                             + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
                             + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                             + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
                             + "AND orders.ID_orders = transaksi.ID_orders "
                             + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
                             + "AND produk.kode_produk = detail_transaksi.kode_produk "
-                            + "GROUP BY orders.ID_orders HAVING produk.nama_produk = 'Kue Tart' AND transaksi.status_pesanan = 'Dipesan'";
+                            + "HAVING produk.nama_produk = 'Kue Tart' AND transaksi.status_pesanan = 'Dipesan' ORDER BY orders.ID_orders ASC";
                 Statement stat = Koneksi.GetConnection().createStatement();
                 ResultSet res = stat.executeQuery(sql);
                 while(res.next()) {
@@ -498,6 +503,7 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                         res.getString("orders.nama_pemesan"),
                         res.getString("produk.nama_produk"),
                         res.getString("detailKue"),
+                        res.getString("detail_produk.ukuran"),
                         res.getString("tanggalPesan"),
                         res.getString("tanggalAmbil"),
                         res.getString("transaksi.status_pesanan"),
@@ -519,26 +525,27 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                 }
             };
                     
-            tbl.addColumn("ID Orders");
-            tbl.addColumn("Nama Pemesan");
+            tbl.addColumn("ID Order");
+            tbl.addColumn("Pemesan");
             tbl.addColumn("Jenis Kue");
             tbl.addColumn("Detail Kue");
-            tbl.addColumn("Tanggal Pesan");
-            tbl.addColumn("Tanggal Ambil");
+            tbl.addColumn("Diameter");
+            tbl.addColumn("Tgl Pesan");
+            tbl.addColumn("Tgl Ambil");
             tbl.addColumn("Status");
             tabel.setModel(tbl);
-            tabel.getColumnModel().getColumn(0).setMaxWidth(100);
-            tabel.getColumnModel().getColumn(3).setMinWidth(100);
+            tabel.getColumnModel().getColumn(0).setMaxWidth(60);
+            tabel.getColumnModel().getColumn(3).setMinWidth(135);
 
             try {
-                 String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+                 String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, detail_produk.ukuran, "
                             + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
                             + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                             + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
                             + "AND orders.ID_orders = transaksi.ID_orders "
                             + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
                             + "AND produk.kode_produk = detail_transaksi.kode_produk "
-                            + "GROUP BY orders.ID_orders HAVING produk.nama_produk = 'Kue Tart' AND transaksi.status_pesanan = 'Dikerjakan'";
+                            + "HAVING produk.nama_produk = 'Kue Tart' AND transaksi.status_pesanan = 'Dikerjakan' ORDER BY orders.ID_orders ASC";
                 Statement stat = Koneksi.GetConnection().createStatement();
                 ResultSet res = stat.executeQuery(sql);
                 while(res.next()) {
@@ -547,6 +554,7 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                         res.getString("orders.nama_pemesan"),
                         res.getString("produk.nama_produk"),
                         res.getString("detailKue"),
+                        res.getString("detail_produk.ukuran"),
                         res.getString("tanggalPesan"),
                         res.getString("tanggalAmbil"),
                         res.getString("transaksi.status_pesanan"),
@@ -568,26 +576,27 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                 }
             };
                     
-            tbl.addColumn("ID Orders");
-            tbl.addColumn("Nama Pemesan");
+            tbl.addColumn("ID Order");
+            tbl.addColumn("Pemesan");
             tbl.addColumn("Jenis Kue");
             tbl.addColumn("Detail Kue");
-            tbl.addColumn("Tanggal Pesan");
-            tbl.addColumn("Tanggal Ambil");
+            tbl.addColumn("Diameter");
+            tbl.addColumn("Tgl Pesan");
+            tbl.addColumn("Tgl Ambil");
             tbl.addColumn("Status");
             tabel.setModel(tbl);
-            tabel.getColumnModel().getColumn(0).setMaxWidth(100);
-            tabel.getColumnModel().getColumn(3).setMinWidth(100);
+            tabel.getColumnModel().getColumn(0).setMaxWidth(60);
+            tabel.getColumnModel().getColumn(3).setMinWidth(135);
 
             try {
-                String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+                String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, detail_produk.ukuran, "
                             + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
                             + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                             + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
                             + "AND orders.ID_orders = transaksi.ID_orders "
                             + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
                             + "AND produk.kode_produk = detail_transaksi.kode_produk "
-                            + "GROUP BY orders.ID_orders HAVING produk.nama_produk = 'Kue Tart' AND transaksi.status_pesanan = 'Belum Di Ambil'";
+                            + "HAVING produk.nama_produk = 'Kue Tart' AND transaksi.status_pesanan = 'Belum Di Ambil' ORDER BY orders.ID_orders ASC";
                 Statement stat = Koneksi.GetConnection().createStatement();
                 ResultSet res = stat.executeQuery(sql);
                 while(res.next()) {
@@ -596,6 +605,7 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                         res.getString("orders.nama_pemesan"),
                         res.getString("produk.nama_produk"),
                         res.getString("detailKue"),
+                        res.getString("detail_produk.ukuran"),
                         res.getString("tanggalPesan"),
                         res.getString("tanggalAmbil"),
                         res.getString("transaksi.status_pesanan"),
@@ -617,26 +627,27 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                 }
             };
                     
-            tbl.addColumn("ID Orders");
-            tbl.addColumn("Nama Pemesan");
+            tbl.addColumn("ID Order");
+            tbl.addColumn("Pemesan");
             tbl.addColumn("Jenis Kue");
             tbl.addColumn("Detail Kue");
-            tbl.addColumn("Tanggal Pesan");
-            tbl.addColumn("Tanggal Ambil");
+            tbl.addColumn("Diameter");
+            tbl.addColumn("Tgl Pesan");
+            tbl.addColumn("Tgl Ambil");
             tbl.addColumn("Status");
             tabel.setModel(tbl);
-            tabel.getColumnModel().getColumn(0).setMaxWidth(100);
-            tabel.getColumnModel().getColumn(3).setMinWidth(100);
+            tabel.getColumnModel().getColumn(0).setMaxWidth(60);
+            tabel.getColumnModel().getColumn(3).setMinWidth(135);
 
             try {
-               String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+               String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, detail_produk.ukuran, "
                             + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
                             + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                             + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
                             + "AND orders.ID_orders = transaksi.ID_orders "
                             + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
                             + "AND produk.kode_produk = detail_transaksi.kode_produk "
-                            + "GROUP BY orders.ID_orders HAVING produk.nama_produk = 'Kue Tart' AND transaksi.status_pesanan = 'Selesai'";
+                            + "HAVING produk.nama_produk = 'Kue Tart' AND transaksi.status_pesanan = 'Selesai' ORDER BY orders.ID_orders ASC";
                 Statement stat = Koneksi.GetConnection().createStatement();
                 ResultSet res = stat.executeQuery(sql);
                 while(res.next()) {
@@ -645,6 +656,7 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                         res.getString("orders.nama_pemesan"),
                         res.getString("produk.nama_produk"),
                         res.getString("detailKue"),
+                        res.getString("detail_produk.ukuran"),
                         res.getString("tanggalPesan"),
                         res.getString("tanggalAmbil"),
                         res.getString("transaksi.status_pesanan"),
@@ -666,26 +678,27 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                 }
             };
                     
-            tbl.addColumn("ID Orders");
-            tbl.addColumn("Nama Pemesan");
+            tbl.addColumn("ID Order");
+            tbl.addColumn("Pemesan");
             tbl.addColumn("Jenis Kue");
             tbl.addColumn("Detail Kue");
-            tbl.addColumn("Tanggal Pesan");
-            tbl.addColumn("Tanggal Ambil");
+            tbl.addColumn("Diameter");
+            tbl.addColumn("Tgl Pesan");
+            tbl.addColumn("Tgl Ambil");
             tbl.addColumn("Status");
             tabel.setModel(tbl);
-            tabel.getColumnModel().getColumn(0).setMaxWidth(100);
-            tabel.getColumnModel().getColumn(3).setMinWidth(100);
+            tabel.getColumnModel().getColumn(0).setMaxWidth(60);
+            tabel.getColumnModel().getColumn(3).setMinWidth(135);
 
             try {
-                String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+                String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, detail_produk.ukuran, "
                             + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
                             + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                             + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
                             + "AND orders.ID_orders = transaksi.ID_orders "
                             + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
                             + "AND produk.kode_produk = detail_transaksi.kode_produk "
-                            + "GROUP BY orders.ID_orders HAVING produk.nama_produk = 'Kue Tart'";
+                            + "HAVING produk.nama_produk = 'Kue Tart' ORDER BY orders.ID_orders ASC";
                 Statement stat = Koneksi.GetConnection().createStatement();
                 ResultSet res = stat.executeQuery(sql);
                 while(res.next()) {
@@ -694,6 +707,7 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                         res.getString("orders.nama_pemesan"),
                         res.getString("produk.nama_produk"),
                         res.getString("detailKue"),
+                        res.getString("detail_produk.ukuran"),
                         res.getString("tanggalPesan"),
                         res.getString("tanggalAmbil"),
                         res.getString("transaksi.status_pesanan"),
@@ -720,26 +734,27 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                 }
             };
                     
-            tbl.addColumn("ID Orders");
-            tbl.addColumn("Nama Pemesan");
+            tbl.addColumn("ID Order");
+            tbl.addColumn("Pemesan");
             tbl.addColumn("Jenis Kue");
             tbl.addColumn("Detail Kue");
-            tbl.addColumn("Tanggal Pesan");
-            tbl.addColumn("Tanggal Ambil");
+            tbl.addColumn("Diameter");
+            tbl.addColumn("Tgl Pesan");
+            tbl.addColumn("Tgl Ambil");
             tbl.addColumn("Status");
             tabel.setModel(tbl);
-            tabel.getColumnModel().getColumn(0).setMaxWidth(100);
-            tabel.getColumnModel().getColumn(3).setMinWidth(100);
+            tabel.getColumnModel().getColumn(0).setMaxWidth(60);
+            tabel.getColumnModel().getColumn(3).setMinWidth(135);
 
             try {
-                String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+                String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, detail_produk.ukuran, "
                             + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
                             + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                             + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
                             + "AND orders.ID_orders = transaksi.ID_orders "
                             + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
                             + "AND produk.kode_produk = detail_transaksi.kode_produk "
-                            + "GROUP BY orders.ID_orders HAVING produk.nama_produk = 'Cup Cake' AND transaksi.status_pesanan = 'Dipesan'";
+                            + "HAVING produk.nama_produk = 'Cup Cake' AND transaksi.status_pesanan = 'Dipesan' ORDER BY orders.ID_orders ASC";
                 Statement stat = Koneksi.GetConnection().createStatement();
                 ResultSet res = stat.executeQuery(sql);
                 while(res.next()) {
@@ -748,6 +763,7 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                         res.getString("orders.nama_pemesan"),
                         res.getString("produk.nama_produk"),
                         res.getString("detailKue"),
+                        res.getString("detail_produk.ukuran"),
                         res.getString("tanggalPesan"),
                         res.getString("tanggalAmbil"),
                         res.getString("transaksi.status_pesanan"),
@@ -769,26 +785,27 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                 }
             };
                     
-            tbl.addColumn("ID Orders");
-            tbl.addColumn("Nama Pemesan");
+            tbl.addColumn("ID Order");
+            tbl.addColumn("Pemesan");
             tbl.addColumn("Jenis Kue");
             tbl.addColumn("Detail Kue");
-            tbl.addColumn("Tanggal Pesan");
-            tbl.addColumn("Tanggal Ambil");
+            tbl.addColumn("Diameter");
+            tbl.addColumn("Tgl Pesan");
+            tbl.addColumn("Tgl Ambil");
             tbl.addColumn("Status");
             tabel.setModel(tbl);
-            tabel.getColumnModel().getColumn(0).setMaxWidth(100);
-            tabel.getColumnModel().getColumn(3).setMinWidth(100);
+            tabel.getColumnModel().getColumn(0).setMaxWidth(60);
+            tabel.getColumnModel().getColumn(3).setMinWidth(135);
 
             try {
-                String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+                String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, detail_produk.ukuran, "
                             + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
                             + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                             + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
                             + "AND orders.ID_orders = transaksi.ID_orders "
                             + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
                             + "AND produk.kode_produk = detail_transaksi.kode_produk "
-                            + "GROUP BY orders.ID_orders HAVING produk.nama_produk = 'Cup Cake' AND transaksi.status_pesanan = 'Dikerjakan'";
+                            + "HAVING produk.nama_produk = 'Cup Cake' AND transaksi.status_pesanan = 'Dikerjakan' ORDER BY orders.ID_orders ASC";
                 Statement stat = Koneksi.GetConnection().createStatement();
                 ResultSet res = stat.executeQuery(sql);
                 while(res.next()) {
@@ -797,6 +814,7 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                         res.getString("orders.nama_pemesan"),
                         res.getString("produk.nama_produk"),
                         res.getString("detailKue"),
+                        res.getString("detail_produk.ukuran"),
                         res.getString("tanggalPesan"),
                         res.getString("tanggalAmbil"),
                         res.getString("transaksi.status_pesanan"),
@@ -818,26 +836,27 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                 }
             };
                     
-            tbl.addColumn("ID Orders");
-            tbl.addColumn("Nama Pemesan");
+            tbl.addColumn("ID Order");
+            tbl.addColumn("Pemesan");
             tbl.addColumn("Jenis Kue");
             tbl.addColumn("Detail Kue");
-            tbl.addColumn("Tanggal Pesan");
-            tbl.addColumn("Tanggal Ambil");
+            tbl.addColumn("Diameter");
+            tbl.addColumn("Tgl Pesan");
+            tbl.addColumn("Tgl Ambil");
             tbl.addColumn("Status");
             tabel.setModel(tbl);
-            tabel.getColumnModel().getColumn(0).setMaxWidth(100);
-            tabel.getColumnModel().getColumn(3).setMinWidth(100);
+            tabel.getColumnModel().getColumn(0).setMaxWidth(60);
+            tabel.getColumnModel().getColumn(3).setMinWidth(135);
 
             try {
-                 String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+                 String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, detail_produk.ukuran, "
                             + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
                             + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                             + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
                             + "AND orders.ID_orders = transaksi.ID_orders "
                             + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
                             + "AND produk.kode_produk = detail_transaksi.kode_produk "
-                            + "GROUP BY orders.ID_orders HAVING produk.nama_produk = 'Cup Cake' AND transaksi.status_pesanan = 'Belum Di Ambil'";
+                            + "HAVING produk.nama_produk = 'Cup Cake' AND transaksi.status_pesanan = 'Belum Di Ambil' ORDER BY orders.ID_orders ASC";
                 Statement stat = Koneksi.GetConnection().createStatement();
                 ResultSet res = stat.executeQuery(sql);
                 while(res.next()) {
@@ -846,6 +865,7 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                         res.getString("orders.nama_pemesan"),
                         res.getString("produk.nama_produk"),
                         res.getString("detailKue"),
+                        res.getString("detail_produk.ukuran"),
                         res.getString("tanggalPesan"),
                         res.getString("tanggalAmbil"),
                         res.getString("transaksi.status_pesanan"),
@@ -867,26 +887,27 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                 }
             };
                     
-            tbl.addColumn("ID Orders");
-            tbl.addColumn("Nama Pemesan");
+            tbl.addColumn("ID Order");
+            tbl.addColumn("Pemesan");
             tbl.addColumn("Jenis Kue");
             tbl.addColumn("Detail Kue");
-            tbl.addColumn("Tanggal Pesan");
-            tbl.addColumn("Tanggal Ambil");
+            tbl.addColumn("Diameter");
+            tbl.addColumn("Tgl Pesan");
+            tbl.addColumn("Tgl Ambil");
             tbl.addColumn("Status");
             tabel.setModel(tbl);
-            tabel.getColumnModel().getColumn(0).setMaxWidth(100);
-            tabel.getColumnModel().getColumn(3).setMinWidth(100);
+            tabel.getColumnModel().getColumn(0).setMaxWidth(60);
+            tabel.getColumnModel().getColumn(3).setMinWidth(135);
 
             try {
-                 String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+                 String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, detail_produk.ukuran, "
                             + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
                             + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                             + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
                             + "AND orders.ID_orders = transaksi.ID_orders "
                             + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
                             + "AND produk.kode_produk = detail_transaksi.kode_produk "
-                            + "GROUP BY orders.ID_orders HAVING produk.nama_produk = 'Cup Cake' AND transaksi.status_pesanan = 'Selesai'";
+                            + "HAVING produk.nama_produk = 'Cup Cake' AND transaksi.status_pesanan = 'Selesai' ORDER BY orders.ID_orders ASC";
                 Statement stat = Koneksi.GetConnection().createStatement();
                 ResultSet res = stat.executeQuery(sql);
                 while(res.next()) {
@@ -895,6 +916,7 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                         res.getString("orders.nama_pemesan"),
                         res.getString("produk.nama_produk"),
                         res.getString("detailKue"),
+                        res.getString("detail_produk.ukuran"),
                         res.getString("tanggalPesan"),
                         res.getString("tanggalAmbil"),
                         res.getString("transaksi.status_pesanan"),
@@ -916,26 +938,27 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                 }
             };
                     
-            tbl.addColumn("ID Orders");
-            tbl.addColumn("Nama Pemesan");
+            tbl.addColumn("ID Order");
+            tbl.addColumn("Pemesan");
             tbl.addColumn("Jenis Kue");
             tbl.addColumn("Detail Kue");
-            tbl.addColumn("Tanggal Pesan");
-            tbl.addColumn("Tanggal Ambil");
+            tbl.addColumn("Diameter");
+            tbl.addColumn("Tgl Pesan");
+            tbl.addColumn("Tgl Ambil");
             tbl.addColumn("Status");
             tabel.setModel(tbl);
-            tabel.getColumnModel().getColumn(0).setMaxWidth(100);
-            tabel.getColumnModel().getColumn(3).setMinWidth(100);
+            tabel.getColumnModel().getColumn(0).setMaxWidth(60);
+            tabel.getColumnModel().getColumn(3).setMinWidth(135);
 
             try {
-                 String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+                 String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, detail_produk.ukuran, "
                             + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
                             + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                             + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
                             + "AND orders.ID_orders = transaksi.ID_orders "
                             + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
                             + "AND produk.kode_produk = detail_transaksi.kode_produk "
-                            + "GROUP BY orders.ID_orders HAVING produk.nama_produk = 'Cup Cake'";
+                            + "HAVING produk.nama_produk = 'Cup Cake' ORDER BY orders.ID_orders ASC";
                 Statement stat = Koneksi.GetConnection().createStatement();
                 ResultSet res = stat.executeQuery(sql);
                 while(res.next()) {
@@ -944,6 +967,7 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                         res.getString("orders.nama_pemesan"),
                         res.getString("produk.nama_produk"),
                         res.getString("detailKue"),
+                        res.getString("detail_produk.ukuran"),
                         res.getString("tanggalPesan"),
                         res.getString("tanggalAmbil"),
                         res.getString("transaksi.status_pesanan"),
@@ -970,26 +994,27 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                 }
             };
                     
-            tbl.addColumn("ID Orders");
-            tbl.addColumn("Nama Pemesan");
+            tbl.addColumn("ID Order");
+            tbl.addColumn("Pemesan");
             tbl.addColumn("Jenis Kue");
             tbl.addColumn("Detail Kue");
-            tbl.addColumn("Tanggal Pesan");
-            tbl.addColumn("Tanggal Ambil");
+            tbl.addColumn("Diameter");
+            tbl.addColumn("Tgl Pesan");
+            tbl.addColumn("Tgl Ambil");
             tbl.addColumn("Status");
             tabel.setModel(tbl);
-            tabel.getColumnModel().getColumn(0).setMaxWidth(100);
-            tabel.getColumnModel().getColumn(3).setMinWidth(100);
+            tabel.getColumnModel().getColumn(0).setMaxWidth(60);
+            tabel.getColumnModel().getColumn(3).setMinWidth(135);
 
             try {
-                 String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+                 String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, detail_produk.ukuran, "
                             + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
                             + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                             + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
                             + "AND orders.ID_orders = transaksi.ID_orders "
                             + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
                             + "AND produk.kode_produk = detail_transaksi.kode_produk "
-                            + "GROUP BY orders.ID_orders HAVING produk.nama_produk = 'Puding' AND transaksi.status_pesanan = 'Dipesan'";
+                            + "HAVING produk.nama_produk = 'Puding' AND transaksi.status_pesanan = 'Dipesan' ORDER BY orders.ID_orders ASC";
                 Statement stat = Koneksi.GetConnection().createStatement();
                 ResultSet res = stat.executeQuery(sql);
                 while(res.next()) {
@@ -998,6 +1023,7 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                         res.getString("orders.nama_pemesan"),
                         res.getString("produk.nama_produk"),
                         res.getString("detailKue"),
+                        res.getString("detail_produk.ukuran"),
                         res.getString("tanggalPesan"),
                         res.getString("tanggalAmbil"),
                         res.getString("transaksi.status_pesanan"),
@@ -1019,26 +1045,27 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                 }
             };
                     
-            tbl.addColumn("ID Orders");
-            tbl.addColumn("Nama Pemesan");
+            tbl.addColumn("ID Order");
+            tbl.addColumn("Pemesan");
             tbl.addColumn("Jenis Kue");
             tbl.addColumn("Detail Kue");
-            tbl.addColumn("Tanggal Pesan");
-            tbl.addColumn("Tanggal Ambil");
+            tbl.addColumn("Diameter");
+            tbl.addColumn("Tgl Pesan");
+            tbl.addColumn("Tgl Ambil");
             tbl.addColumn("Status");
             tabel.setModel(tbl);
-            tabel.getColumnModel().getColumn(0).setMaxWidth(100);
-            tabel.getColumnModel().getColumn(3).setMinWidth(100);
+            tabel.getColumnModel().getColumn(0).setMaxWidth(60);
+            tabel.getColumnModel().getColumn(3).setMinWidth(135);
 
             try {
-                 String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+                 String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, detail_produk.ukuran, "
                             + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
                             + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                             + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
                             + "AND orders.ID_orders = transaksi.ID_orders "
                             + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
                             + "AND produk.kode_produk = detail_transaksi.kode_produk "
-                            + "GROUP BY orders.ID_orders HAVING produk.nama_produk = 'Puding' AND transaksi.status_pesanan = 'Dikerjakan'";
+                            + "HAVING produk.nama_produk = 'Puding' AND transaksi.status_pesanan = 'Dikerjakan' ORDER BY orders.ID_orders ASC";
                 Statement stat = Koneksi.GetConnection().createStatement();
                 ResultSet res = stat.executeQuery(sql);
                 while(res.next()) {
@@ -1047,6 +1074,7 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                         res.getString("orders.nama_pemesan"),
                         res.getString("produk.nama_produk"),
                         res.getString("detailKue"),
+                        res.getString("detail_produk.ukuran"),
                         res.getString("tanggalPesan"),
                         res.getString("tanggalAmbil"),
                         res.getString("transaksi.status_pesanan"),
@@ -1068,26 +1096,27 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                 }
             };
                     
-            tbl.addColumn("ID Orders");
-            tbl.addColumn("Nama Pemesan");
+            tbl.addColumn("ID Order");
+            tbl.addColumn("Pemesan");
             tbl.addColumn("Jenis Kue");
             tbl.addColumn("Detail Kue");
-            tbl.addColumn("Tanggal Pesan");
-            tbl.addColumn("Tanggal Ambil");
+            tbl.addColumn("Diameter");
+            tbl.addColumn("Tgl Pesan");
+            tbl.addColumn("Tgl Ambil");
             tbl.addColumn("Status");
             tabel.setModel(tbl);
-            tabel.getColumnModel().getColumn(0).setMaxWidth(100);
-            tabel.getColumnModel().getColumn(3).setMinWidth(100);
+            tabel.getColumnModel().getColumn(0).setMaxWidth(60);
+            tabel.getColumnModel().getColumn(3).setMinWidth(135);
 
             try {
-                 String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+                 String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, detail_produk.ukuran, "
                             + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
                             + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                             + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
                             + "AND orders.ID_orders = transaksi.ID_orders "
                             + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
                             + "AND produk.kode_produk = detail_transaksi.kode_produk "
-                            + "GROUP BY orders.ID_orders HAVING produk.nama_produk = 'Puding' AND transaksi.status_pesanan = 'Belum Di Ambil'";
+                            + "HAVING produk.nama_produk = 'Puding' AND transaksi.status_pesanan = 'Belum Di Ambil' ORDER BY orders.ID_orders ASC";
                 Statement stat = Koneksi.GetConnection().createStatement();
                 ResultSet res = stat.executeQuery(sql);
                 while(res.next()) {
@@ -1096,6 +1125,7 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                         res.getString("orders.nama_pemesan"),
                         res.getString("produk.nama_produk"),
                         res.getString("detailKue"),
+                        res.getString("detail_produk.ukuran"),
                         res.getString("tanggalPesan"),
                         res.getString("tanggalAmbil"),
                         res.getString("transaksi.status_pesanan"),
@@ -1117,26 +1147,27 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                 }
             };
                     
-            tbl.addColumn("ID Orders");
-            tbl.addColumn("Nama Pemesan");
+            tbl.addColumn("ID Order");
+            tbl.addColumn("Pemesan");
             tbl.addColumn("Jenis Kue");
             tbl.addColumn("Detail Kue");
-            tbl.addColumn("Tanggal Pesan");
-            tbl.addColumn("Tanggal Ambil");
+            tbl.addColumn("Diameter");
+            tbl.addColumn("Tgl Pesan");
+            tbl.addColumn("Tgl Ambil");
             tbl.addColumn("Status");
             tabel.setModel(tbl);
-            tabel.getColumnModel().getColumn(0).setMaxWidth(100);
-            tabel.getColumnModel().getColumn(3).setMinWidth(100);
+            tabel.getColumnModel().getColumn(0).setMaxWidth(60);
+            tabel.getColumnModel().getColumn(3).setMinWidth(135);
 
             try {
-                 String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+                 String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, detail_produk.ukuran, "
                             + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
                             + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                             + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
                             + "AND orders.ID_orders = transaksi.ID_orders "
                             + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
                             + "AND produk.kode_produk = detail_transaksi.kode_produk "
-                            + "GROUP BY orders.ID_orders HAVING produk.nama_produk = 'Puding' AND transaksi.status_pesanan = 'Selesai'";
+                            + "HAVING produk.nama_produk = 'Puding' AND transaksi.status_pesanan = 'Selesai' ORDER BY orders.ID_orders ASC";
                 Statement stat = Koneksi.GetConnection().createStatement();
                 ResultSet res = stat.executeQuery(sql);
                 while(res.next()) {
@@ -1145,6 +1176,7 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                         res.getString("orders.nama_pemesan"),
                         res.getString("produk.nama_produk"),
                         res.getString("detailKue"),
+                        res.getString("detail_produk.ukuran"),
                         res.getString("tanggalPesan"),
                         res.getString("tanggalAmbil"),
                         res.getString("transaksi.status_pesanan"),
@@ -1166,26 +1198,27 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                 }
             };
                                         
-            tbl.addColumn("ID Orders");
-            tbl.addColumn("Nama Pemesan");
+            tbl.addColumn("ID Order");
+            tbl.addColumn("Pemesan");
             tbl.addColumn("Jenis Kue");
             tbl.addColumn("Detail Kue");
-            tbl.addColumn("Tanggal Pesan");
-            tbl.addColumn("Tanggal Ambil");
+            tbl.addColumn("Diameter");
+            tbl.addColumn("Tgl Pesan");
+            tbl.addColumn("Tgl Ambil");
             tbl.addColumn("Status");
             tabel.setModel(tbl);
-            tabel.getColumnModel().getColumn(0).setMaxWidth(100);
-            tabel.getColumnModel().getColumn(3).setMinWidth(100);
+            tabel.getColumnModel().getColumn(0).setMaxWidth(60);
+            tabel.getColumnModel().getColumn(3).setMinWidth(135);
 
             try {
-                 String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+                 String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, detail_produk.ukuran, "
                             + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
                             + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                             + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
                             + "AND orders.ID_orders = transaksi.ID_orders "
                             + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
                             + "AND produk.kode_produk = detail_transaksi.kode_produk "
-                            + "GROUP BY orders.ID_orders HAVING produk.nama_produk = 'Puding'";
+                            + "HAVING produk.nama_produk = 'Puding' ORDER BY orders.ID_orders ASC";
                 Statement stat = Koneksi.GetConnection().createStatement();
                 ResultSet res = stat.executeQuery(sql);
                 while(res.next()) {
@@ -1194,6 +1227,7 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                         res.getString("orders.nama_pemesan"),
                         res.getString("produk.nama_produk"),
                         res.getString("detailKue"),
+                        res.getString("detail_produk.ukuran"),
                         res.getString("tanggalPesan"),
                         res.getString("tanggalAmbil"),
                         res.getString("transaksi.status_pesanan"),
@@ -1220,26 +1254,27 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                 }
             };
                     
-            tbl.addColumn("ID Orders");
-            tbl.addColumn("Nama Pemesan");
+            tbl.addColumn("ID Order");
+            tbl.addColumn("Pemesan");
             tbl.addColumn("Jenis Kue");
             tbl.addColumn("Detail Kue");
-            tbl.addColumn("Tanggal Pesan");
-            tbl.addColumn("Tanggal Ambil");
+            tbl.addColumn("Diameter");
+            tbl.addColumn("Tgl Pesan");
+            tbl.addColumn("Tgl Ambil");
             tbl.addColumn("Status");
             tabel.setModel(tbl);
-            tabel.getColumnModel().getColumn(0).setMaxWidth(100);
-            tabel.getColumnModel().getColumn(3).setMinWidth(100);
+            tabel.getColumnModel().getColumn(0).setMaxWidth(60);
+            tabel.getColumnModel().getColumn(3).setMinWidth(135);
 
             try {
-                String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+                String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, detail_produk.ukuran, "
                             + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
                             + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                             + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
                             + "AND orders.ID_orders = transaksi.ID_orders "
                             + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
                             + "AND produk.kode_produk = detail_transaksi.kode_produk "
-                            + "GROUP BY orders.ID_orders HAVING produk.nama_produk = 'Fudgy Brownies' AND transaksi.status_pesanan = 'Dipesan'";
+                            + "HAVING produk.nama_produk = 'Fudgy Brownies' AND transaksi.status_pesanan = 'Dipesan' ORDER BY orders.ID_orders ASC";
                 Statement stat = Koneksi.GetConnection().createStatement();
                 ResultSet res = stat.executeQuery(sql);
                 while(res.next()) {
@@ -1248,6 +1283,7 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                         res.getString("orders.nama_pemesan"),
                         res.getString("produk.nama_produk"),
                         res.getString("detailKue"),
+                        res.getString("detail_produk.ukuran"),
                         res.getString("tanggalPesan"),
                         res.getString("tanggalAmbil"),
                         res.getString("transaksi.status_pesanan"),
@@ -1269,26 +1305,27 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                 }
             };   
                     
-            tbl.addColumn("ID Orders");
-            tbl.addColumn("Nama Pemesan");
+            tbl.addColumn("ID Order");
+            tbl.addColumn("Pemesan");
             tbl.addColumn("Jenis Kue");
             tbl.addColumn("Detail Kue");
-            tbl.addColumn("Tanggal Pesan");
-            tbl.addColumn("Tanggal Ambil");
+            tbl.addColumn("Diameter");
+            tbl.addColumn("Tgl Pesan");
+            tbl.addColumn("Tgl Ambil");
             tbl.addColumn("Status");
             tabel.setModel(tbl);
-            tabel.getColumnModel().getColumn(0).setMaxWidth(100);
-            tabel.getColumnModel().getColumn(3).setMinWidth(100);
+            tabel.getColumnModel().getColumn(0).setMaxWidth(60);
+            tabel.getColumnModel().getColumn(3).setMinWidth(135);
 
             try {
-                 String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+                 String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, detail_produk.ukuran, "
                             + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
                             + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                             + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
                             + "AND orders.ID_orders = transaksi.ID_orders "
                             + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
                             + "AND produk.kode_produk = detail_transaksi.kode_produk "
-                            + "GROUP BY orders.ID_orders HAVING produk.nama_produk = 'Fudgy Brownies' AND transaksi.status_pesanan = 'Dikerjakan'";
+                            + "HAVING produk.nama_produk = 'Fudgy Brownies' AND transaksi.status_pesanan = 'Dikerjakan' ORDER BY orders.ID_orders ASC";
                 Statement stat = Koneksi.GetConnection().createStatement();
                 ResultSet res = stat.executeQuery(sql);
                 while(res.next()) {
@@ -1297,6 +1334,7 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                         res.getString("orders.nama_pemesan"),
                         res.getString("produk.nama_produk"),
                         res.getString("detailKue"),
+                        res.getString("detail_produk.ukuran"),
                         res.getString("tanggalPesan"),
                         res.getString("tanggalAmbil"),
                         res.getString("transaksi.status_pesanan"),
@@ -1318,26 +1356,27 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                 }
             };
                     
-            tbl.addColumn("ID Orders");
-            tbl.addColumn("Nama Pemesan");
+            tbl.addColumn("ID Order");
+            tbl.addColumn("Pemesan");
             tbl.addColumn("Jenis Kue");
             tbl.addColumn("Detail Kue");
-            tbl.addColumn("Tanggal Pesan");
-            tbl.addColumn("Tanggal Ambil");
+            tbl.addColumn("Diameter");
+            tbl.addColumn("Tgl Pesan");
+            tbl.addColumn("Tgl Ambil");
             tbl.addColumn("Status");
             tabel.setModel(tbl);
-            tabel.getColumnModel().getColumn(0).setMaxWidth(100);
-            tabel.getColumnModel().getColumn(3).setMinWidth(100);
+            tabel.getColumnModel().getColumn(0).setMaxWidth(60);
+            tabel.getColumnModel().getColumn(3).setMinWidth(135);
 
             try {
-                 String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+                 String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, detail_produk.ukuran, "
                             + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
                             + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                             + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
                             + "AND orders.ID_orders = transaksi.ID_orders "
                             + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
                             + "AND produk.kode_produk = detail_transaksi.kode_produk "
-                            + "GROUP BY orders.ID_orders HAVING produk.nama_produk = 'Fudgy Brownies' AND transaksi.status_pesanan = 'Belum Di Ambil'";
+                            + "HAVING produk.nama_produk = 'Fudgy Brownies' AND transaksi.status_pesanan = 'Belum Di Ambil' ORDER BY orders.ID_orders ASC";
                 Statement stat = Koneksi.GetConnection().createStatement();
                 ResultSet res = stat.executeQuery(sql);
                 while(res.next()) {
@@ -1346,6 +1385,7 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                         res.getString("orders.nama_pemesan"),
                         res.getString("produk.nama_produk"),
                         res.getString("detailKue"),
+                        res.getString("detail_produk.ukuran"),
                         res.getString("tanggalPesan"),
                         res.getString("tanggalAmbil"),
                         res.getString("transaksi.status_pesanan"),
@@ -1367,26 +1407,27 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                 }
             };
             
-            tbl.addColumn("ID Orders");
-            tbl.addColumn("Nama Pemesan");
+            tbl.addColumn("ID Order");
+            tbl.addColumn("Pemesan");
             tbl.addColumn("Jenis Kue");
             tbl.addColumn("Detail Kue");
-            tbl.addColumn("Tanggal Pesan");
-            tbl.addColumn("Tanggal Ambil");
+            tbl.addColumn("Diameter");
+            tbl.addColumn("Tgl Pesan");
+            tbl.addColumn("Tgl Ambil");
             tbl.addColumn("Status");
             tabel.setModel(tbl);
-            tabel.getColumnModel().getColumn(0).setMaxWidth(100);
-            tabel.getColumnModel().getColumn(3).setMinWidth(100);
+            tabel.getColumnModel().getColumn(0).setMaxWidth(60);
+            tabel.getColumnModel().getColumn(3).setMinWidth(135);
 
             try {
-                 String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+                 String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, detail_produk.ukuran, "
                             + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
                             + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                             + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
                             + "AND orders.ID_orders = transaksi.ID_orders "
                             + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
                             + "AND produk.kode_produk = detail_transaksi.kode_produk "
-                            + "GROUP BY orders.ID_orders HAVING produk.nama_produk = 'Fudgy Brownies' AND transaksi.status_pesanan = 'Selesai'";
+                            + "HAVING produk.nama_produk = 'Fudgy Brownies' AND transaksi.status_pesanan = 'Selesai' ORDER BY orders.ID_orders ASC";
                 Statement stat = Koneksi.GetConnection().createStatement();
                 ResultSet res = stat.executeQuery(sql);
                 while(res.next()) {
@@ -1395,6 +1436,7 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                         res.getString("orders.nama_pemesan"),
                         res.getString("produk.nama_produk"),
                         res.getString("detailKue"),
+                        res.getString("detail_produk.ukuran"),
                         res.getString("tanggalPesan"),
                         res.getString("tanggalAmbil"),
                         res.getString("transaksi.status_pesanan"),
@@ -1416,26 +1458,27 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                 }
             };
             
-            tbl.addColumn("ID Orders");
-            tbl.addColumn("Nama Pemesan");
+            tbl.addColumn("ID Order");
+            tbl.addColumn("Pemesan");
             tbl.addColumn("Jenis Kue");
             tbl.addColumn("Detail Kue");
-            tbl.addColumn("Tanggal Pesan");
-            tbl.addColumn("Tanggal Ambil");
+            tbl.addColumn("Diameter");
+            tbl.addColumn("Tgl Pesan");
+            tbl.addColumn("Tgl Ambil");
             tbl.addColumn("Status");
             tabel.setModel(tbl);
-            tabel.getColumnModel().getColumn(0).setMaxWidth(100);
-            tabel.getColumnModel().getColumn(3).setMinWidth(100);
+            tabel.getColumnModel().getColumn(0).setMaxWidth(60);
+            tabel.getColumnModel().getColumn(3).setMinWidth(135);
 
             try {
-                 String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, "
+                 String sql = "SELECT orders.ID_orders, orders.nama_pemesan, produk.nama_produk, detail_produk.nama_produk AS detailKue, detail_produk.ukuran, "
                             + "DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan, DATE_FORMAT(tgl_ambil, '%d-%m-%Y') AS tanggalAmbil, transaksi.status_pesanan "
                             + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                             + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
                             + "AND orders.ID_orders = transaksi.ID_orders "
                             + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
                             + "AND produk.kode_produk = detail_transaksi.kode_produk "
-                            + "GROUP BY orders.ID_orders HAVING produk.nama_produk = 'Fudgy Brownies'";
+                            + "HAVING produk.nama_produk = 'Fudgy Brownies' ORDER BY orders.ID_orders ASC";
                 Statement stat = Koneksi.GetConnection().createStatement();
                 ResultSet res = stat.executeQuery(sql);
                 while(res.next()) {
@@ -1444,6 +1487,7 @@ public class mDetailPesanan extends javax.swing.JInternalFrame {
                         res.getString("orders.nama_pemesan"),
                         res.getString("produk.nama_produk"),
                         res.getString("detailKue"),
+                        res.getString("detail_produk.ukuran"),
                         res.getString("tanggalPesan"),
                         res.getString("tanggalAmbil"),
                         res.getString("transaksi.status_pesanan"),

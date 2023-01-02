@@ -476,7 +476,6 @@ public class mMasterStok extends javax.swing.JInternalFrame {
         String data1 = tb.getValueAt(i, 0).toString();
         String data2 = tb.getValueAt(i, 1).toString();
         String data3 = tb.getValueAt(i, 2).toString();
-        String data5 = tb.getValueAt(i, 4).toString();
 
         String data = tb.getValueAt(i, 4).toString();
         data = data.replace(".", "");

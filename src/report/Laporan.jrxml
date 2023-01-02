@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="04d0242a-6d8b-4ec8-91e4-f51f005a0420">
-	<property name="ireport.zoom" value="0.9982500000000003"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.zoom" value="2.589203410794827"/>
+	<property name="ireport.x" value="247"/>
+	<property name="ireport.y" value="70"/>
 	<parameter name="bulan" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -17,9 +17,9 @@ FROM transaksi, detail_transaksi, produk, pegawai
 WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi 
 AND produk.kode_produk = detail_transaksi.kode_produk 
 AND pegawai.ID_pegawai = transaksi.ID_pegawai
-GROUP BY pegawai.nama_pegawai
-HAVING DATE_FORMAT(transaksi.tgl_pesan,'%m') = $P{bulan} 
-AND DATE_FORMAT(transaksi.tgl_pesan, '%Y') = $P{tahun}]]>
+AND DATE_FORMAT(transaksi.tgl_pesan,'%m') = $P{bulan} 
+AND DATE_FORMAT(transaksi.tgl_pesan, '%Y') = $P{tahun}
+GROUP BY pegawai.nama_pegawai]]>
 	</queryString>
 	<field name="nama_pegawai" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -96,6 +96,9 @@ AND DATE_FORMAT(transaksi.tgl_pesan, '%Y') = $P{tahun}]]>
 				</textElement>
 				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
 			</textField>
+			<line>
+				<reportElement uuid="a808863a-9d1c-4f42-93a7-247f1bc4d852" x="-21" y="0" width="596" height="1"/>
+			</line>
 		</band>
 	</pageHeader>
 	<columnHeader>

@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.NumberFormat;
 import java.util.Locale;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -55,7 +54,7 @@ public class mDetailTransaksi extends javax.swing.JFrame {
         tabel.setModel(tbl);
 
         try {
-            String sql =  "SELECT detail_transaksi.ID_transaksi, orders.ID_orders, orders.nama_pemesan, detail_transaksi.total_kue, "
+            String sql =  "SELECT DISTINCT detail_transaksi.ID_transaksi, orders.ID_orders, orders.nama_pemesan, detail_transaksi.total_kue, "
                         + "transaksi.metode_bayar, detail_transaksi.harga_total, detail_transaksi.total_bayar, detail_transaksi.kembali, "
                         + "produk.nama_produk, detail_produk.nama_produk AS detailKue, DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan,"
                         + "pegawai.nama_pegawai "
@@ -65,7 +64,7 @@ public class mDetailTransaksi extends javax.swing.JFrame {
                         + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
                         + "AND produk.kode_produk = detail_transaksi.kode_produk "
                         + "AND pegawai.ID_pegawai = transaksi.ID_pegawai "
-                        + "GROUP BY orders.ID_orders HAVING orders.ID_orders = '"+ tNoOrder.getText()  +"'";
+                        + "AND orders.ID_orders = '"+ tNoOrder.getText() +"'";
             Statement stat = Koneksi.GetConnection().createStatement();
             ResultSet res = stat.executeQuery(sql);
             while(res.next()) {
@@ -84,7 +83,7 @@ public class mDetailTransaksi extends javax.swing.JFrame {
     
     public void dataLainnya() {        
         try {
-            String sql =  "SELECT detail_transaksi.ID_transaksi, orders.ID_orders, orders.nama_pemesan, detail_transaksi.total_kue, "
+            String sql =  "SELECT DISTINCT detail_transaksi.ID_transaksi, orders.ID_orders, orders.nama_pemesan, detail_transaksi.total_kue, "
                         + "transaksi.metode_bayar, detail_transaksi.harga_total, detail_transaksi.total_bayar, detail_transaksi.kembali, "
                         + "produk.nama_produk, detail_produk.nama_produk AS detailKue, DATE_FORMAT(tgl_pesan, '%d-%m-%Y') AS tanggalPesan,"
                         + "pegawai.nama_pegawai "
@@ -94,7 +93,7 @@ public class mDetailTransaksi extends javax.swing.JFrame {
                         + "AND detail_produk.kode_sub_produk = detail_transaksi.kode_sub_produk "
                         + "AND produk.kode_produk = detail_transaksi.kode_produk "
                         + "AND pegawai.ID_pegawai = transaksi.ID_pegawai "
-                        + "GROUP BY orders.ID_orders HAVING orders.ID_orders = '"+ tNoOrder.getText() +"'";
+                        + "AND orders.ID_orders = '"+ tNoOrder.getText() +"'";
             Statement stat = Koneksi.GetConnection().createStatement();
             ResultSet res = stat.executeQuery(sql);
             if (res.next()) {
@@ -328,10 +327,11 @@ public class mDetailTransaksi extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3)
-                    .addComponent(tTglOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tTglOrder, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(jLabel3)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tNoOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)

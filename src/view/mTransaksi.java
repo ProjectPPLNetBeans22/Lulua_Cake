@@ -88,8 +88,8 @@ public class mTransaksi extends javax.swing.JInternalFrame {
         tabel.getColumnModel().getColumn(3).setMinWidth(100);
 
         try {
-            String sql =  "SELECT orders.ID_orders, orders.nama_pemesan, detail_transaksi.total_kue, "
-                        + "transaksi.metode_bayar, detail_transaksi.harga_total, detail_transaksi.total_bayar, detail_transaksi.kembali "
+            String sql =  "SELECT detail_transaksi.ID_transaksi, orders.ID_orders, orders.nama_pemesan, SUM(detail_transaksi.total_kue), "
+                        + "transaksi.metode_bayar, SUM(detail_transaksi.harga_total), detail_transaksi.total_bayar, detail_transaksi.kembali "
                         + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                         + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
                         + "AND orders.ID_orders = transaksi.ID_orders "
@@ -102,9 +102,9 @@ public class mTransaksi extends javax.swing.JInternalFrame {
                 tbl.addRow(new Object[]{
                     res.getString("orders.ID_orders"),
                     res.getString("orders.nama_pemesan"),
-                    res.getString("detail_transaksi.total_kue"),
+                    res.getString("SUM(detail_transaksi.total_kue)"),
                     res.getString("transaksi.metode_bayar"),
-                    nf.format(Integer.parseInt(res.getString("detail_transaksi.harga_total"))),
+                    nf.format(Integer.parseInt(res.getString("SUM(detail_transaksi.harga_total)"))),
                     nf.format(Integer.parseInt(res.getString("detail_transaksi.total_bayar"))),
                     nf.format(Integer.parseInt(res.getString("detail_transaksi.kembali"))),
                 });
@@ -269,7 +269,7 @@ public class mTransaksi extends javax.swing.JInternalFrame {
 
         tComboBayar.setBackground(new java.awt.Color(204, 204, 204));
         tComboBayar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        tComboBayar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Pilih Metode -", "Tunai", "Non-Tunai" }));
+        tComboBayar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Pilih Metode -", "Tunai", "Non-Tunail" }));
         tComboBayar.setBorder(null);
         jPanel6.add(tComboBayar);
         tComboBayar.setBounds(180, 223, 190, 35);
@@ -351,8 +351,8 @@ public class mTransaksi extends javax.swing.JInternalFrame {
             tKembali.setText("");
         } else {
             try {
-                String sql =  "SELECT detail_transaksi.ID_transaksi, orders.ID_orders, orders.nama_pemesan, detail_transaksi.total_kue, "
-                            + "transaksi.metode_bayar, detail_transaksi.harga_total, detail_transaksi.total_bayar, detail_transaksi.kembali "
+                String sql =  "SELECT detail_transaksi.ID_transaksi, orders.ID_orders, orders.nama_pemesan, SUM(detail_transaksi.total_kue), "
+                            + "transaksi.metode_bayar, SUM(detail_transaksi.harga_total), detail_transaksi.total_bayar, detail_transaksi.kembali "
                             + "FROM transaksi, detail_transaksi, detail_produk, orders, produk "
                             + "WHERE transaksi.ID_transaksi = detail_transaksi.ID_transaksi "
                             + "AND orders.ID_orders = transaksi.ID_orders "
@@ -364,9 +364,9 @@ public class mTransaksi extends javax.swing.JInternalFrame {
                 if (res.next()) {
                     tIdTransaksi.setText(res.getString("detail_transaksi.ID_transaksi"));
                     tNamaPemesan.setText(res.getString("orders.nama_pemesan"));
-                    tJumlahKue.setText(res.getString("detail_transaksi.total_kue"));
+                    tJumlahKue.setText(res.getString("SUM(detail_transaksi.total_kue)"));
                     tComboBayar.setSelectedItem(res.getString("transaksi.metode_bayar"));
-                    tTotalHarga.setText(res.getString("detail_transaksi.harga_total"));
+                    tTotalHarga.setText(res.getString("SUM(detail_transaksi.harga_total)"));
                     tTotalBayar.setText(res.getString("detail_transaksi.total_bayar"));
                     tKembali.setText(res.getString("detail_transaksi.kembali"));
                     if (!tTotalBayar.getText().isEmpty() && !tKembali.getText().isEmpty()) {
@@ -441,6 +441,8 @@ public class mTransaksi extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         if (tNoOrder.getText().isEmpty()) {
             JOptionPane.showMessageDialog(rootPane, "Masukan Nomor Order Terlebih Dahulu");
+        } else if (tComboBayar.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(rootPane, "Mohon Masukan Metode Pembayaran"); 
         } else if (tTotalBayar.getText().isEmpty()) {
             JOptionPane.showMessageDialog(rootPane, "Mohon Masukan Nominal Pembayaran");
         } else if (Integer.parseInt(tTotalBayar.getText()) < Integer.parseInt(tTotalHarga.getText())) {
@@ -455,6 +457,12 @@ public class mTransaksi extends javax.swing.JInternalFrame {
                            + "kembali = '"+ tKembali.getText() +"' WHERE ID_transaksi = '"+ tIdTransaksi.getText() +"'";
                 Statement stat = Koneksi.GetConnection().createStatement();
                 stat.execute(sql);
+                
+                String sql2 = "UPDATE transaksi SET ID_pegawai = '"+ tIdKaryawan1.getText() +"', metode_bayar = '"+ tComboBayar.getSelectedItem() +"' "
+                            + "WHERE ID_transaksi = '"+ tIdTransaksi.getText() +"'";
+                Statement stat1 = Koneksi.GetConnection().createStatement();
+                stat1.execute(sql2);
+                
                 JOptionPane.showMessageDialog(rootPane, "Pembayaran Berhasil Di Proses");
                 dataTabel();
                 bersih();
